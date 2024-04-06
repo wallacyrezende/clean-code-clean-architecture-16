@@ -33,8 +33,6 @@ import static org.mockito.Mockito.when;
 @AutoConfigureMockMvc
 class SignupControllerTest {
 
-    private Connection mockConnection;
-    private PreparedStatement mockPreparedStatement;
     private ResultSet mockResultSet;
     private static final String API = "/api";
     private static final MediaType JSON = MediaType.APPLICATION_JSON;
@@ -45,8 +43,8 @@ class SignupControllerTest {
 
     @BeforeEach
     void setup() throws Exception {
-        mockConnection = mock(Connection.class);
-        mockPreparedStatement = mock(PreparedStatement.class);
+        Connection mockConnection = mock(Connection.class);
+        PreparedStatement mockPreparedStatement = mock(PreparedStatement.class);
         mockResultSet = mock(ResultSet.class);
 
         when(dataSource.getConnection()).thenReturn(mockConnection);
@@ -56,13 +54,11 @@ class SignupControllerTest {
     }
 
     @Test
-    @DisplayName("Should signup a client and generate account id")
-    void signup() throws Exception {
+    @DisplayName("Should signup a account and generate account id")
+    void shouldSignupAndGenerateAccountId() throws Exception {
         var requestDTO = buildSignupRequest();
 
-
         String requestBody = new ObjectMapper().writeValueAsString(requestDTO);
-
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .post(API.concat("/signup"))
@@ -74,6 +70,83 @@ class SignupControllerTest {
                 .perform(request)
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("id").isNotEmpty());
+    }
+
+    @Test
+    @DisplayName("Should validate account already exists and return -4")
+    void shouldValidateAccountAlreadyExists() throws Exception {
+        var requestDTO = buildSignupRequest();
+        String requestBody = new ObjectMapper().writeValueAsString(requestDTO);
+
+        when(mockResultSet.next()).thenReturn(true);
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .post(API.concat("/signup"))
+                .accept(JSON)
+                .contentType(JSON)
+                .content(requestBody);
+
+        mvc
+                .perform(request)
+                .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity())
+                .andExpect(MockMvcResultMatchers.content().string("-4"));
+    }
+
+    @Test
+    @DisplayName("Should validate name and return -3")
+    void shouldValidateName() throws Exception {
+        var requestDTO = buildSignupRequest();
+        requestDTO.setName("123 123");
+        String requestBody = new ObjectMapper().writeValueAsString(requestDTO);
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .post(API.concat("/signup"))
+                .accept(JSON)
+                .contentType(JSON)
+                .content(requestBody);
+
+        mvc
+                .perform(request)
+                .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity())
+                .andExpect(MockMvcResultMatchers.content().string("-3"));
+    }
+
+    @Test
+    @DisplayName("Should validate email and return -2")
+    void shouldValidateEmail() throws Exception {
+        var requestDTO = buildSignupRequest();
+        requestDTO.setEmail("112321.com");
+        String requestBody = new ObjectMapper().writeValueAsString(requestDTO);
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .post(API.concat("/signup"))
+                .accept(JSON)
+                .contentType(JSON)
+                .content(requestBody);
+
+        mvc
+                .perform(request)
+                .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity())
+                .andExpect(MockMvcResultMatchers.content().string("-2"));
+    }
+
+    @Test
+    @DisplayName("Should validate cpf and return -1")
+    void shouldValidateCpf() throws Exception {
+        var requestDTO = buildSignupRequest();
+        requestDTO.setCpf("123.456.789.01");
+        String requestBody = new ObjectMapper().writeValueAsString(requestDTO);
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .post(API.concat("/signup"))
+                .accept(JSON)
+                .contentType(JSON)
+                .content(requestBody);
+
+        mvc
+                .perform(request)
+                .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity())
+                .andExpect(MockMvcResultMatchers.content().string("-1"));
     }
 
     private SignupRequest buildSignupRequest() {
