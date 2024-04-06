@@ -67,6 +67,27 @@ class SignupControllerTest {
     }
 
     @Test
+    @DisplayName("Should validate car plate and return -5")
+    void shouldValidateCarPlate() throws Exception {
+        var requestDTO = buildSignupRequest();
+        requestDTO.setIsDriver(true);
+        requestDTO.setIsPassenger(false);
+        requestDTO.setCarPlate("QWE123");
+        String requestBody = new ObjectMapper().writeValueAsString(requestDTO);
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .post(API.concat("/signup"))
+                .accept(JSON)
+                .contentType(JSON)
+                .content(requestBody);
+
+        mvc
+                .perform(request)
+                .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity())
+                .andExpect(MockMvcResultMatchers.content().string("-5"));
+    }
+
+    @Test
     @DisplayName("Should validate account already exists and return -4")
     void shouldValidateAccountAlreadyExists() throws Exception {
         var requestDTO = buildSignupRequest();
