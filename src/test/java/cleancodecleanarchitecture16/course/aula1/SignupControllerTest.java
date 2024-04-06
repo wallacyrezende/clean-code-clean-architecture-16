@@ -1,5 +1,8 @@
 package cleancodecleanarchitecture16.course.aula1;
 
+import cleancodecleanarchitecture16.course.aula1.controller.SignupController;
+import cleancodecleanarchitecture16.course.aula1.model.dto.AccountDTO;
+import cleancodecleanarchitecture16.course.aula1.service.AccountService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -17,13 +20,11 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 @DisplayName("Signup tests")
@@ -33,32 +34,25 @@ import static org.mockito.Mockito.when;
 @AutoConfigureMockMvc
 class SignupControllerTest {
 
-    private ResultSet mockResultSet;
     private static final String API = "/api";
     private static final MediaType JSON = MediaType.APPLICATION_JSON;
     @Autowired
     MockMvc mvc;
     @MockBean
-    DataSource dataSource;
+    AccountService accountService;
 
     @BeforeEach
     void setup() throws Exception {
-        Connection mockConnection = mock(Connection.class);
-        PreparedStatement mockPreparedStatement = mock(PreparedStatement.class);
-        mockResultSet = mock(ResultSet.class);
-
-        when(dataSource.getConnection()).thenReturn(mockConnection);
-        when(mockConnection.prepareStatement(any(String.class))).thenReturn(mockPreparedStatement);
-        when(mockPreparedStatement.executeQuery()).thenReturn(mockResultSet);
-        when(mockResultSet.next()).thenReturn(false);
+        doNothing().when(accountService).validateEmailAlreadyExists(any(AccountDTO.class));
     }
 
     @Test
     @DisplayName("Should signup a account and generate account id")
     void shouldSignupAndGenerateAccountId() throws Exception {
         var requestDTO = buildSignupRequest();
-
         String requestBody = new ObjectMapper().writeValueAsString(requestDTO);
+
+        when(accountService.saveAccount(any(AccountDTO.class))).thenReturn(UUID.randomUUID());
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .post(API.concat("/signup"))
@@ -78,7 +72,7 @@ class SignupControllerTest {
         var requestDTO = buildSignupRequest();
         String requestBody = new ObjectMapper().writeValueAsString(requestDTO);
 
-        when(mockResultSet.next()).thenReturn(true);
+        doThrow(Exception.class).when(accountService).validateEmailAlreadyExists(any(AccountDTO.class));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .post(API.concat("/signup"))
@@ -149,8 +143,8 @@ class SignupControllerTest {
                 .andExpect(MockMvcResultMatchers.content().string("-1"));
     }
 
-    private SignupRequest buildSignupRequest() {
-        return SignupRequest.builder()
+    private AccountDTO buildSignupRequest() {
+        return AccountDTO.builder()
                 .name("John Doe")
                 .email("exemplo@email.com")
                 .cpf("188.058.750-58")
