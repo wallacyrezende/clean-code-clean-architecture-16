@@ -37,7 +37,7 @@ public class SignupController {
             selectStatement.setString(1, req.getEmail());
             ResultSet acc = selectStatement.executeQuery();
             if (!acc.next()) {
-                if (req.getName().matches("[a-zA-Z] [a-zA-Z]+")) {
+                if (req.getName().matches("[a-zA-Z]+ [a-zA-Z]+")) {
                     if (req.getEmail().matches("^(.+)@(.+)$")) {
                         if (validate(req.getCpf())) {
                             if (req.getIsDriver()) {

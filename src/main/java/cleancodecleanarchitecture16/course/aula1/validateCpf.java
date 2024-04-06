@@ -27,11 +27,13 @@ public class validateCpf {
         return cpf.chars().allMatch(digit -> digit == firstDigit);
     }
 
-    private static int calculateDigit(String cpf, int factor) {
+    public static int calculateDigit(String cpf, int factor) {
         int total = 0;
-        for (int i = 0; i < 9; i++) {
-            int digit = Character.getNumericValue(cpf.charAt(i));
-            total += digit * factor--;
+        for (int i = 0; i < cpf.length(); i++) {
+            char digit = cpf.charAt(i);
+            if (factor > 1) {
+                total += Character.getNumericValue(digit) * factor--;
+            }
         }
         int remainder = total % 11;
         return (remainder < 2) ? 0 : 11 - remainder;
