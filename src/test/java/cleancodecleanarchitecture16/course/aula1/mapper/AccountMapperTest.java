@@ -31,8 +31,33 @@ class AccountMapperTest {
         assertEquals(accountDTO.getIsPassenger(), account.getIsPassenger());
     }
 
+    @Test
+    @DisplayName("Should build a account dto")
+    void shouldBuildAAccountDTO() {
+        var account = buildAccount();
+
+        AccountDTO accountDTO = accountMapper.buildAccountDTO(account);
+
+        assertEquals(account.getName(), accountDTO.getName());
+        assertEquals(account.getCpf(), accountDTO.getCpf());
+        assertEquals(account.getEmail(), accountDTO.getEmail());
+        assertEquals(account.getIsDriver(), accountDTO.getIsDriver());
+        assertEquals(account.getIsPassenger(), accountDTO.getIsPassenger());
+    }
+
     private AccountDTO buildAccountDTO() {
         return AccountDTO.builder()
+                .name("John Doe")
+                .email("exemplo@email.com")
+                .cpf("188.058.750-58")
+                .carPlate("ABC1234")
+                .isPassenger(true)
+                .isDriver(false)
+                .build();
+    }
+
+    private Account buildAccount() {
+        return Account.builder()
                 .name("John Doe")
                 .email("exemplo@email.com")
                 .cpf("188.058.750-58")
