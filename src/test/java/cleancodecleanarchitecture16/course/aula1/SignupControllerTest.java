@@ -2,9 +2,9 @@ package cleancodecleanarchitecture16.course.aula1;
 
 import cleancodecleanarchitecture16.course.aula1.controller.SignupController;
 import cleancodecleanarchitecture16.course.aula1.model.dto.AccountDTO;
+import cleancodecleanarchitecture16.course.aula1.model.exceptions.BusinessException;
 import cleancodecleanarchitecture16.course.aula1.service.AccountService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,8 +23,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 @DisplayName("Signup tests")
@@ -41,24 +39,16 @@ class SignupControllerTest {
     @MockBean
     AccountService accountService;
 
-    @BeforeEach
-    void setup() throws Exception {
-        doNothing().when(accountService).validateEmailAlreadyExists(any(AccountDTO.class));
-    }
-
     @Test
     @DisplayName("Should signup a account and generate account id")
     void shouldSignupAndGenerateAccountId() throws Exception {
-        var requestDTO = buildSignupRequest();
-        String requestBody = new ObjectMapper().writeValueAsString(requestDTO);
-
-        when(accountService.saveAccount(any(AccountDTO.class))).thenReturn(UUID.randomUUID());
+        when(accountService.signup(any(AccountDTO.class))).thenReturn(UUID.randomUUID());
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .post(API.concat("/signup"))
                 .accept(JSON)
                 .contentType(JSON)
-                .content(requestBody);
+                .content(new ObjectMapper().writeValueAsString(buildSignupRequest()));
 
         mvc
                 .perform(request)
@@ -69,17 +59,13 @@ class SignupControllerTest {
     @Test
     @DisplayName("Should validate car plate and return -5")
     void shouldValidateCarPlate() throws Exception {
-        var requestDTO = buildSignupRequest();
-        requestDTO.setIsDriver(true);
-        requestDTO.setIsPassenger(false);
-        requestDTO.setCarPlate("QWE123");
-        String requestBody = new ObjectMapper().writeValueAsString(requestDTO);
+        when(accountService.signup(any(AccountDTO.class))).thenThrow(new BusinessException("Car plate is invalid",-5));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .post(API.concat("/signup"))
                 .accept(JSON)
                 .contentType(JSON)
-                .content(requestBody);
+                .content(new ObjectMapper().writeValueAsString(buildSignupRequest()));
 
         mvc
                 .perform(request)
@@ -90,16 +76,13 @@ class SignupControllerTest {
     @Test
     @DisplayName("Should validate account already exists and return -4")
     void shouldValidateAccountAlreadyExists() throws Exception {
-        var requestDTO = buildSignupRequest();
-        String requestBody = new ObjectMapper().writeValueAsString(requestDTO);
-
-        doThrow(Exception.class).when(accountService).validateEmailAlreadyExists(any(AccountDTO.class));
+        when(accountService.signup(any(AccountDTO.class))).thenThrow(new BusinessException("",-4));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .post(API.concat("/signup"))
                 .accept(JSON)
                 .contentType(JSON)
-                .content(requestBody);
+                .content(new ObjectMapper().writeValueAsString(buildSignupRequest()));
 
         mvc
                 .perform(request)
@@ -110,15 +93,13 @@ class SignupControllerTest {
     @Test
     @DisplayName("Should validate name and return -3")
     void shouldValidateName() throws Exception {
-        var requestDTO = buildSignupRequest();
-        requestDTO.setName("123 123");
-        String requestBody = new ObjectMapper().writeValueAsString(requestDTO);
+        when(accountService.signup(any(AccountDTO.class))).thenThrow(new BusinessException("",-3));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .post(API.concat("/signup"))
                 .accept(JSON)
                 .contentType(JSON)
-                .content(requestBody);
+                .content(new ObjectMapper().writeValueAsString(buildSignupRequest()));
 
         mvc
                 .perform(request)
@@ -129,15 +110,13 @@ class SignupControllerTest {
     @Test
     @DisplayName("Should validate email and return -2")
     void shouldValidateEmail() throws Exception {
-        var requestDTO = buildSignupRequest();
-        requestDTO.setEmail("112321.com");
-        String requestBody = new ObjectMapper().writeValueAsString(requestDTO);
+        when(accountService.signup(any(AccountDTO.class))).thenThrow(new BusinessException("",-2));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .post(API.concat("/signup"))
                 .accept(JSON)
                 .contentType(JSON)
-                .content(requestBody);
+                .content(new ObjectMapper().writeValueAsString(buildSignupRequest()));
 
         mvc
                 .perform(request)
@@ -148,15 +127,13 @@ class SignupControllerTest {
     @Test
     @DisplayName("Should validate cpf and return -1")
     void shouldValidateCpf() throws Exception {
-        var requestDTO = buildSignupRequest();
-        requestDTO.setCpf("123.456.789.01");
-        String requestBody = new ObjectMapper().writeValueAsString(requestDTO);
+        when(accountService.signup(any(AccountDTO.class))).thenThrow(new BusinessException("",-1));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .post(API.concat("/signup"))
                 .accept(JSON)
                 .contentType(JSON)
-                .content(requestBody);
+                .content(new ObjectMapper().writeValueAsString(buildSignupRequest()));
 
         mvc
                 .perform(request)
