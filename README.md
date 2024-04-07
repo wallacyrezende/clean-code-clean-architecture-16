@@ -30,4 +30,4 @@ mvn test
 
 Isso executará todos os testes unitários e de integração da API.
 
-Sinta-se à vontade para explorar e utilizar esta API para o cadastro de usuários em seu aplicativo similar ao Uber. Se precisar de mais informações ou tiver alguma dúvida, consulte a documentação do Swagger.
+Sinta-se à vontade para explorar e utilizar esta API para o seu proósito. Essa API ainda está em desenvolvimento, por esse motivo muitas coisas podem mudar. Se precisar de mais informações ou tiver alguma dúvida, pode entrar em contato comigo.
