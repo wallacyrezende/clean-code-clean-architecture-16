@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -23,6 +24,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -135,6 +137,21 @@ class AccountServiceImplTest {
         assertEquals(error.getCode(), -1);
         verify(accountRepository, never()).save(any());
         verify(accountMapper, never()).buildAccount(any(AccountDTO.class));
+    }
+
+    @Test
+    @DisplayName("Should find account by account Id")
+    void shouldFindByAccountId() {
+        var account = buildAccount();
+        var accountDTO = buildAccountDTO();
+
+        when(accountRepository.findById(any(UUID.class))).thenReturn(Optional.of(account));
+        when(accountMapper.buildAccountDTO(any(Account.class))).thenReturn(accountDTO);
+
+        accountService.findByAccountId(UUID.randomUUID());
+
+        verify(accountRepository, times(1)).findById(any(UUID.class));
+        verify(accountMapper, times(1)).buildAccountDTO(any(Account.class));
     }
 
     private AccountDTO buildAccountDTO() {
