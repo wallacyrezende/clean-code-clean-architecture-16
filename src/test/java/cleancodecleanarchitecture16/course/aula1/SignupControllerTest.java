@@ -25,7 +25,7 @@ import java.util.UUID;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-@DisplayName("Signup tests")
+@DisplayName("Signup Controller tests")
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles("test")
 @WebMvcTest(controllers = SignupController.class)
@@ -42,13 +42,13 @@ class SignupControllerTest {
     @Test
     @DisplayName("Should signup a account and generate account id")
     void shouldSignupAndGenerateAccountId() throws Exception {
-        when(accountService.signup(any(AccountDTO.class))).thenReturn(UUID.randomUUID());
+        when(accountService.create(any(AccountDTO.class))).thenReturn(UUID.randomUUID());
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .post(API.concat("/signup"))
                 .accept(JSON)
                 .contentType(JSON)
-                .content(new ObjectMapper().writeValueAsString(buildSignupRequest()));
+                .content(new ObjectMapper().writeValueAsString(buildAccountDTO()));
 
         mvc
                 .perform(request)
@@ -59,13 +59,13 @@ class SignupControllerTest {
     @Test
     @DisplayName("Should validate car plate and return -5")
     void shouldValidateCarPlate() throws Exception {
-        when(accountService.signup(any(AccountDTO.class))).thenThrow(new BusinessException("Car plate is invalid",-5));
+        when(accountService.create(any(AccountDTO.class))).thenThrow(new BusinessException("Car plate is invalid",-5));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .post(API.concat("/signup"))
                 .accept(JSON)
                 .contentType(JSON)
-                .content(new ObjectMapper().writeValueAsString(buildSignupRequest()));
+                .content(new ObjectMapper().writeValueAsString(buildAccountDTO()));
 
         mvc
                 .perform(request)
@@ -76,13 +76,13 @@ class SignupControllerTest {
     @Test
     @DisplayName("Should validate account already exists and return -4")
     void shouldValidateAccountAlreadyExists() throws Exception {
-        when(accountService.signup(any(AccountDTO.class))).thenThrow(new BusinessException("",-4));
+        when(accountService.create(any(AccountDTO.class))).thenThrow(new BusinessException("",-4));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .post(API.concat("/signup"))
                 .accept(JSON)
                 .contentType(JSON)
-                .content(new ObjectMapper().writeValueAsString(buildSignupRequest()));
+                .content(new ObjectMapper().writeValueAsString(buildAccountDTO()));
 
         mvc
                 .perform(request)
@@ -93,13 +93,13 @@ class SignupControllerTest {
     @Test
     @DisplayName("Should validate name and return -3")
     void shouldValidateName() throws Exception {
-        when(accountService.signup(any(AccountDTO.class))).thenThrow(new BusinessException("",-3));
+        when(accountService.create(any(AccountDTO.class))).thenThrow(new BusinessException("",-3));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .post(API.concat("/signup"))
                 .accept(JSON)
                 .contentType(JSON)
-                .content(new ObjectMapper().writeValueAsString(buildSignupRequest()));
+                .content(new ObjectMapper().writeValueAsString(buildAccountDTO()));
 
         mvc
                 .perform(request)
@@ -110,13 +110,13 @@ class SignupControllerTest {
     @Test
     @DisplayName("Should validate email and return -2")
     void shouldValidateEmail() throws Exception {
-        when(accountService.signup(any(AccountDTO.class))).thenThrow(new BusinessException("",-2));
+        when(accountService.create(any(AccountDTO.class))).thenThrow(new BusinessException("",-2));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .post(API.concat("/signup"))
                 .accept(JSON)
                 .contentType(JSON)
-                .content(new ObjectMapper().writeValueAsString(buildSignupRequest()));
+                .content(new ObjectMapper().writeValueAsString(buildAccountDTO()));
 
         mvc
                 .perform(request)
@@ -127,13 +127,13 @@ class SignupControllerTest {
     @Test
     @DisplayName("Should validate cpf and return -1")
     void shouldValidateCpf() throws Exception {
-        when(accountService.signup(any(AccountDTO.class))).thenThrow(new BusinessException("",-1));
+        when(accountService.create(any(AccountDTO.class))).thenThrow(new BusinessException("",-1));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .post(API.concat("/signup"))
                 .accept(JSON)
                 .contentType(JSON)
-                .content(new ObjectMapper().writeValueAsString(buildSignupRequest()));
+                .content(new ObjectMapper().writeValueAsString(buildAccountDTO()));
 
         mvc
                 .perform(request)
@@ -141,7 +141,7 @@ class SignupControllerTest {
                 .andExpect(MockMvcResultMatchers.content().string("-1"));
     }
 
-    private AccountDTO buildSignupRequest() {
+    private AccountDTO buildAccountDTO() {
         return AccountDTO.builder()
                 .name("John Doe")
                 .email("exemplo@email.com")

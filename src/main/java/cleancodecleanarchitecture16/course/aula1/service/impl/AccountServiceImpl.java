@@ -21,19 +21,12 @@ public class AccountServiceImpl implements AccountService {
     private final AccountMapper accountMapper;
 
     @Override
-    public void validateEmailAlreadyExists(AccountDTO accountDTO) throws BusinessException {
-        if (Objects.nonNull(accountRepository.findByEmail(accountDTO.getEmail())))
-            throw new BusinessException("Email already exists", -4);
+    public UUID create(AccountDTO accountDTO) throws BusinessException {
+        validateFieldsAccount(accountDTO);
+        return saveAccount(accountDTO);
     }
 
-    @Override
-    public UUID saveAccount(AccountDTO accountDTO) {
-        return accountRepository.save(accountMapper.buildAccount(accountDTO)).getAccountId();
-    }
-
-    @Override
-    public UUID signup(AccountDTO accountDTO) throws BusinessException {
-
+    private void validateFieldsAccount(AccountDTO accountDTO) throws BusinessException {
         validateEmailAlreadyExists(accountDTO);
         if (!accountDTO.getName().matches("[a-zA-Z]+ [a-zA-Z]+"))
             throw new BusinessException("Name is invalid", -3);
@@ -45,7 +38,15 @@ public class AccountServiceImpl implements AccountService {
             if (!accountDTO.getCarPlate().matches("[A-Z]{3}[0-9]{4}"))
                 throw new BusinessException("Car plate is invalid", -5);
         }
-        return saveAccount(accountDTO);
+    }
+
+    private void validateEmailAlreadyExists(AccountDTO accountDTO) throws BusinessException {
+        if (Objects.nonNull(accountRepository.findByEmail(accountDTO.getEmail())))
+            throw new BusinessException("Email already exists", -4);
+    }
+
+    private UUID saveAccount(AccountDTO accountDTO) {
+        return accountRepository.save(accountMapper.buildAccount(accountDTO)).getAccountId();
     }
 
     private static boolean cpfIsValid(AccountDTO accountDTO) {

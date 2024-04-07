@@ -22,7 +22,7 @@ public class SignupController {
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody AccountDTO accountDTO) {
         try {
-            return ResponseEntity.ok(new SignupResponse(accountService.signup(accountDTO)));
+            return ResponseEntity.ok(new SignupResponse(accountService.create(accountDTO)));
         } catch (BusinessException e) {
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(e.getCode());
         }

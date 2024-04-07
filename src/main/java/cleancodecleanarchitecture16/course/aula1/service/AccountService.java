@@ -6,8 +6,5 @@ import cleancodecleanarchitecture16.course.aula1.model.exceptions.BusinessExcept
 import java.util.UUID;
 
 public interface AccountService {
-    void validateEmailAlreadyExists(AccountDTO accountDTO) throws BusinessException;
-
-    UUID saveAccount(AccountDTO accountDTO);
-    UUID signup(AccountDTO accountDTO) throws BusinessException;
+    UUID create(AccountDTO accountDTO) throws BusinessException;
 }

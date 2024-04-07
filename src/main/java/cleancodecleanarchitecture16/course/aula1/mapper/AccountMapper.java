@@ -10,7 +10,7 @@ public class AccountMapper {
     public Account buildAccount(AccountDTO accountDTO) {
         return Account.builder()
                 .name(accountDTO.getName())
-                .email(accountDTO.getName())
+                .email(accountDTO.getEmail())
                 .cpf(accountDTO.getCpf())
                 .carPlate(accountDTO.getCarPlate())
                 .isPassenger(accountDTO.getIsPassenger())
