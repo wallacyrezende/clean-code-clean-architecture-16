@@ -8,10 +8,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "Signup Controller")
@@ -24,11 +24,8 @@ public class SignupController {
 
     @Operation(summary = "Create a new Account")
     @PostMapping("/signup")
-    public ResponseEntity<?> signup(@RequestBody AccountDTO accountDTO) {
-        try {
-            return ResponseEntity.ok(new SignupResponse(accountService.create(accountDTO)));
-        } catch (BusinessException e) {
-            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(e.getCode());
-        }
+    @ResponseStatus(HttpStatus.CREATED)
+    public SignupResponse signup(@RequestBody AccountDTO accountDTO) throws BusinessException {
+        return SignupResponse.builder().id(accountService.create(accountDTO)).build();
     }
 }

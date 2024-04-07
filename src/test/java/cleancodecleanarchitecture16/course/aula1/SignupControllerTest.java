@@ -70,7 +70,7 @@ class SignupControllerTest {
         mvc
                 .perform(request)
                 .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity())
-                .andExpect(MockMvcResultMatchers.content().string("-5"));
+                .andExpect(MockMvcResultMatchers.content().string("Error: Car plate is invalid, Code: -5"));
     }
 
     @Test
