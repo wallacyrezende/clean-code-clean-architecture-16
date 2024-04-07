@@ -2,11 +2,13 @@ package cleancodecleanarchitecture16.course.aula1.mapper;
 
 import cleancodecleanarchitecture16.course.aula1.model.dto.AccountDTO;
 import cleancodecleanarchitecture16.course.aula1.model.entities.Account;
+import cleancodecleanarchitecture16.course.aula1.model.exceptions.BusinessException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class AccountMapperTest {
 
@@ -32,6 +34,14 @@ class AccountMapperTest {
     }
 
     @Test
+    @DisplayName("Should throw error when try build a null account")
+    void shouldThrowErrorWhenTryBuildANullAccount() {
+         var error = assertThrows(BusinessException.class, () -> accountMapper.buildAccount(null));
+         assertEquals("Account dto cannot be null", error.getMessage());
+         assertEquals(0, error.getCode());
+    }
+
+    @Test
     @DisplayName("Should build a account dto")
     void shouldBuildAAccountDTO() {
         var account = buildAccount();
@@ -43,6 +53,14 @@ class AccountMapperTest {
         assertEquals(account.getEmail(), accountDTO.getEmail());
         assertEquals(account.getIsDriver(), accountDTO.getIsDriver());
         assertEquals(account.getIsPassenger(), accountDTO.getIsPassenger());
+    }
+
+    @Test
+    @DisplayName("Should throw error when try build a null account dto")
+    void shouldThrowErrorWhenTryBuildANullAccountDto() {
+        var error = assertThrows(BusinessException.class, () -> accountMapper.buildAccountDTO(null));
+        assertEquals("Account cannot be null", error.getMessage());
+        assertEquals(0, error.getCode());
     }
 
     private AccountDTO buildAccountDTO() {

@@ -21,7 +21,7 @@ public class AccountServiceImpl implements AccountService {
     private final AccountMapper accountMapper;
 
     @Override
-    public UUID create(AccountDTO accountDTO) throws BusinessException {
+    public UUID create(AccountDTO accountDTO) {
         validateFieldsAccount(accountDTO);
         return saveAccount(accountDTO);
     }
@@ -31,7 +31,7 @@ public class AccountServiceImpl implements AccountService {
         return accountMapper.buildAccountDTO(accountRepository.findById(accountId).get());
     }
 
-    private void validateFieldsAccount(AccountDTO accountDTO) throws BusinessException {
+    private void validateFieldsAccount(AccountDTO accountDTO) {
         validateEmailAlreadyExists(accountDTO);
         if (!accountDTO.getName().matches("[a-zA-Z]+ [a-zA-Z]+"))
             throw new BusinessException("Name is invalid", -3);
@@ -45,7 +45,7 @@ public class AccountServiceImpl implements AccountService {
         }
     }
 
-    private void validateEmailAlreadyExists(AccountDTO accountDTO) throws BusinessException {
+    private void validateEmailAlreadyExists(AccountDTO accountDTO) {
         if (Objects.nonNull(accountRepository.findByEmail(accountDTO.getEmail())))
             throw new BusinessException("Email already exists", -4);
     }

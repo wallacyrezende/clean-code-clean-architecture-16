@@ -49,7 +49,7 @@ class AccountServiceImplTest {
 
     @Test
     @DisplayName("Should create a passenger account")
-    void shouldCreateAccount() throws BusinessException {
+    void shouldCreateAccount() {
         var accountDTO = buildAccountDTO();
         var account = buildAccount();
 

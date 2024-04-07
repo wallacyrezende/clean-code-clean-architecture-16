@@ -5,7 +5,7 @@ import lombok.Getter;
 import java.io.Serial;
 
 @Getter
-public class BusinessException extends Exception {
+public class BusinessException extends RuntimeException  {
 
     @Serial
     private static final long serialVersionUID = 3372675067599282433L;

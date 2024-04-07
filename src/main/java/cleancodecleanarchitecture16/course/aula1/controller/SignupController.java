@@ -2,7 +2,6 @@ package cleancodecleanarchitecture16.course.aula1.controller;
 
 import cleancodecleanarchitecture16.course.aula1.SignupResponse;
 import cleancodecleanarchitecture16.course.aula1.model.dto.AccountDTO;
-import cleancodecleanarchitecture16.course.aula1.model.exceptions.BusinessException;
 import cleancodecleanarchitecture16.course.aula1.service.AccountService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -29,7 +28,7 @@ public class SignupController {
     @Operation(summary = "Create a new Account")
     @PostMapping("/signup")
     @ResponseStatus(HttpStatus.CREATED)
-    public SignupResponse signup(@RequestBody AccountDTO accountDTO) throws BusinessException {
+    public SignupResponse signup(@RequestBody AccountDTO accountDTO) {
         return SignupResponse.builder().id(accountService.create(accountDTO)).build();
     }
 
