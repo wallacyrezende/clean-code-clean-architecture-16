@@ -17,4 +17,15 @@ public class AccountMapper {
                 .isDriver(accountDTO.getIsDriver())
                 .build();
     }
+
+    public AccountDTO buildAccountDTO(Account account) {
+        return AccountDTO.builder()
+                .name(account.getName())
+                .email(account.getEmail())
+                .cpf(account.getCpf())
+                .carPlate(account.getCarPlate())
+                .isPassenger(account.getIsPassenger())
+                .isDriver(account.getIsDriver())
+                .build();
+    }
 }

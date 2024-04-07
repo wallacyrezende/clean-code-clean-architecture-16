@@ -7,4 +7,5 @@ import java.util.UUID;
 
 public interface AccountService {
     UUID create(AccountDTO accountDTO) throws BusinessException;
+    AccountDTO findByAccountId(UUID accountId);
 }

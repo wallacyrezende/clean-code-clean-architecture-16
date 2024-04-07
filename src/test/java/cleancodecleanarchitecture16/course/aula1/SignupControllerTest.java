@@ -50,7 +50,6 @@ class SignupControllerTest {
                 .accept(JSON)
                 .contentType(JSON)
                 .content(new ObjectMapper().writeValueAsString(buildAccountDTO()));
-
         mvc
                 .perform(request)
                 .andExpect(MockMvcResultMatchers.status().isCreated())
@@ -67,7 +66,6 @@ class SignupControllerTest {
                 .accept(JSON)
                 .contentType(JSON)
                 .content(new ObjectMapper().writeValueAsString(buildAccountDTO()));
-
         mvc
                 .perform(request)
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
@@ -86,7 +84,6 @@ class SignupControllerTest {
                 .accept(JSON)
                 .contentType(JSON)
                 .content(new ObjectMapper().writeValueAsString(buildAccountDTO()));
-
         mvc
                 .perform(request)
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
@@ -105,7 +102,6 @@ class SignupControllerTest {
                 .accept(JSON)
                 .contentType(JSON)
                 .content(new ObjectMapper().writeValueAsString(buildAccountDTO()));
-
         mvc
                 .perform(request)
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
@@ -124,7 +120,6 @@ class SignupControllerTest {
                 .accept(JSON)
                 .contentType(JSON)
                 .content(new ObjectMapper().writeValueAsString(buildAccountDTO()));
-
         mvc
                 .perform(request)
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
@@ -143,13 +138,33 @@ class SignupControllerTest {
                 .accept(JSON)
                 .contentType(JSON)
                 .content(new ObjectMapper().writeValueAsString(buildAccountDTO()));
-
         mvc
                 .perform(request)
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andExpect(MockMvcResultMatchers.jsonPath("message").value("Cpf is invalid"))
                 .andExpect(MockMvcResultMatchers.jsonPath("code").value("-1"))
                 .andExpect(MockMvcResultMatchers.jsonPath("details").value("uri=".concat(API.concat(SIGNUP_ENDPOINT))));
+    }
+
+    @Test
+    @DisplayName("Should get account by account id")
+    void shouldGetAccountByAccountId() throws Exception {
+        var accountDTO = buildAccountDTO();
+        when(accountService.findByAccountId(any(UUID.class))).thenReturn(accountDTO);
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .get(API + "/" + UUID.randomUUID())
+                .contentType(JSON)
+                .accept(JSON);
+        mvc
+                .perform(request)
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("name").value(accountDTO.getName()))
+                .andExpect(MockMvcResultMatchers.jsonPath("email").value(accountDTO.getEmail()))
+                .andExpect(MockMvcResultMatchers.jsonPath("cpf").value(accountDTO.getCpf()))
+                .andExpect(MockMvcResultMatchers.jsonPath("carPlate").value(accountDTO.getCarPlate()))
+                .andExpect(MockMvcResultMatchers.jsonPath("isPassenger").value(accountDTO.getIsPassenger()))
+                .andExpect(MockMvcResultMatchers.jsonPath("isDriver").value(accountDTO.getIsDriver()));
     }
 
     private AccountDTO buildAccountDTO() {

@@ -26,6 +26,11 @@ public class AccountServiceImpl implements AccountService {
         return saveAccount(accountDTO);
     }
 
+    @Override
+    public AccountDTO findByAccountId(UUID accountId) {
+        return accountMapper.buildAccountDTO(accountRepository.findById(accountId).get());
+    }
+
     private void validateFieldsAccount(AccountDTO accountDTO) throws BusinessException {
         validateEmailAlreadyExists(accountDTO);
         if (!accountDTO.getName().matches("[a-zA-Z]+ [a-zA-Z]+"))
