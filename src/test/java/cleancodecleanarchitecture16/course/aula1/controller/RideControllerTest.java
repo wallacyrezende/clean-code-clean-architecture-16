@@ -58,7 +58,7 @@ class RideControllerTest {
 
     @Test
     @DisplayName("Should return bad request when request ride")
-    void shouldValidateCarPlate() throws Exception {
+    void shouldReturnBadRequestWhenRequestRide() throws Exception {
         when(rideService.create(any(RequestRideDTO.class))).thenThrow(new BusinessException(""));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
@@ -86,7 +86,16 @@ class RideControllerTest {
                 .accept(JSON);
         mvc
                 .perform(request)
-                .andExpect(MockMvcResultMatchers.status().isOk());
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("rideId").value(rideDTO.getRideId().toString()))
+                .andExpect(MockMvcResultMatchers.jsonPath("passengerId").value(rideDTO.getPassengerId().toString()))
+                .andExpect(MockMvcResultMatchers.jsonPath("fromLat").value(rideDTO.getFromLat()))
+                .andExpect(MockMvcResultMatchers.jsonPath("fromLong").value(rideDTO.getFromLong()))
+                .andExpect(MockMvcResultMatchers.jsonPath("toLat").value(rideDTO.getToLat()))
+                .andExpect(MockMvcResultMatchers.jsonPath("toLong").value(rideDTO.getToLong()))
+                .andExpect(MockMvcResultMatchers.jsonPath("status").value(rideDTO.getStatus()))
+                .andExpect(MockMvcResultMatchers.jsonPath("passengerName").value(rideDTO.getPassengerName()))
+                .andExpect(MockMvcResultMatchers.jsonPath("passengerEmail").value(rideDTO.getPassengerEmail()));
     }
 
     private RideDTO buildRideDTO() {
