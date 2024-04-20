@@ -3,6 +3,7 @@ package cleancodecleanarchitecture16.course.aula1.service.impl;
 import cleancodecleanarchitecture16.course.aula1.mapper.RideMapper;
 import cleancodecleanarchitecture16.course.aula1.model.dto.AccountDTO;
 import cleancodecleanarchitecture16.course.aula1.model.dto.RequestRideDTO;
+import cleancodecleanarchitecture16.course.aula1.model.dto.RideDTO;
 import cleancodecleanarchitecture16.course.aula1.model.entities.Ride;
 import cleancodecleanarchitecture16.course.aula1.model.exceptions.BusinessException;
 import cleancodecleanarchitecture16.course.aula1.repository.RideRepository;
@@ -16,6 +17,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -24,6 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -56,7 +60,7 @@ class RideServiceImplTest {
         var requestRideDTO = buildRequestRideDTO();
         var ride = buildRide();
 
-        when(rideMapper.buildRide(any(RequestRideDTO.class))).thenReturn(ride);
+        when(rideMapper.buildRequestedRide(any(RequestRideDTO.class))).thenReturn(ride);
         when(rideRepository.save(any(Ride.class))).thenAnswer(invocation -> {
            Ride rideSaved = invocation.getArgument(0);
            rideSaved.setRideId(UUID.randomUUID());
@@ -80,7 +84,7 @@ class RideServiceImplTest {
 
         assertEquals(error.getMessage(), "Account is not from a passenger");
         verify(rideRepository, never()).save(any());
-        verify(rideMapper, never()).buildRide(any(RequestRideDTO.class));
+        verify(rideMapper, never()).buildRequestedRide(any(RequestRideDTO.class));
     }
 
     @Test
@@ -94,7 +98,20 @@ class RideServiceImplTest {
 
         assertEquals(error.getMessage(), "Passenger has an active ride");
         verify(rideRepository, never()).save(any());
-        verify(rideMapper, never()).buildRide(any(RequestRideDTO.class));
+        verify(rideMapper, never()).buildRequestedRide(any(RequestRideDTO.class));
+    }
+
+    @Test
+    @DisplayName("Should find ride by ride Id")
+    void shouldFindByRideId() {
+        when(rideRepository.findById(any(UUID.class))).thenReturn(Optional.of(buildRide()));
+        when(rideMapper.buildRideDTO(any(Ride.class), any(AccountDTO.class))).thenReturn(buildRideDTO());
+
+        rideService.findByRideId(UUID.randomUUID());
+
+        verify(rideRepository, times(1)).findById(any(UUID.class));
+        verify(accountService, times(1)).findByAccountId(any(UUID.class));
+        verify(rideMapper, times(1)).buildRideDTO(any(Ride.class), any(AccountDTO.class));
     }
 
     private RequestRideDTO buildRequestRideDTO() {
@@ -110,10 +127,26 @@ class RideServiceImplTest {
     private Ride buildRide() {
         return Ride.builder()
                 .passengerId(UUID.randomUUID())
+                .status("requested")
+                .date(LocalDateTime.now())
                 .fromLat(0L)
                 .fromLong(0L)
                 .toLat(0L)
                 .toLong(0L)
+                .build();
+    }
+
+    private RideDTO buildRideDTO() {
+        return RideDTO.builder()
+                .rideId(UUID.randomUUID())
+                .passengerId(UUID.randomUUID())
+                .fromLat(0L)
+                .fromLong(0L)
+                .toLat(0L)
+                .toLong(0L)
+                .status("requested")
+                .passengerName("John Doe")
+                .passengerEmail("email@email.com")
                 .build();
     }
 }

@@ -16,4 +16,7 @@ public class RideDTO {
     private Long fromLong;
     private Long toLat;
     private Long toLong;
+    private String status;
+    private String passengerName;
+    private String passengerEmail;
 }

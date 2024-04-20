@@ -28,11 +28,13 @@ public class RideServiceImpl implements RideService {
         Boolean hasActiveRide = rideRepository.hasActiveRideByPassengerId(requestRideDTO.getPassengerId());
         if (Boolean.TRUE.equals(hasActiveRide))
             throw new BusinessException("Passenger has an active ride");
-        return rideRepository.save(rideMapper.buildRide(requestRideDTO)).getRideId();
+        return rideRepository.save(rideMapper.buildRequestedRide(requestRideDTO)).getRideId();
     }
 
     @Override
     public RideDTO findByRideId(UUID rideId) {
-        return null;
+        var ride = rideRepository.findById(rideId).stream().iterator().next();
+        var accountDTO = accountService.findByAccountId(ride.getPassengerId());
+        return rideMapper.buildRideDTO(ride, accountDTO);
     }
 }
