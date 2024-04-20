@@ -1,6 +1,7 @@
 package cleancodecleanarchitecture16.course.aula1.controller;
 
 import cleancodecleanarchitecture16.course.aula1.model.dto.RequestRideDTO;
+import cleancodecleanarchitecture16.course.aula1.model.dto.RideDTO;
 import cleancodecleanarchitecture16.course.aula1.model.exceptions.BusinessException;
 import cleancodecleanarchitecture16.course.aula1.service.RideService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -71,6 +72,32 @@ class RideControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("message").value(""))
                 .andExpect(MockMvcResultMatchers.jsonPath("code").value("100"))
                 .andExpect(MockMvcResultMatchers.jsonPath("details").value("uri=".concat(API.concat(REQUEST_RIDE_ENDPOINT))));
+    }
+
+    @Test
+    @DisplayName("Should get ride by ride id")
+    void shouldGetRideByRideId() throws Exception {
+        var rideDTO = buildRideDTO();
+        when(rideService.findByRideId(any(UUID.class))).thenReturn(rideDTO);
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .get(API + "/" + UUID.randomUUID())
+                .contentType(JSON)
+                .accept(JSON);
+        mvc
+                .perform(request)
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    private RideDTO buildRideDTO() {
+        return RideDTO.builder()
+                .rideId(UUID.randomUUID())
+                .passengerId(UUID.randomUUID())
+                .fromLat(0L)
+                .fromLong(0L)
+                .toLat(0L)
+                .toLong(0L)
+                .build();
     }
 
     private RequestRideDTO buildRequestRideDTO() {

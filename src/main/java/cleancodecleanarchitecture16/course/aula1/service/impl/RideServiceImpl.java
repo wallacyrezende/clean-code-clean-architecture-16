@@ -2,6 +2,7 @@ package cleancodecleanarchitecture16.course.aula1.service.impl;
 
 import cleancodecleanarchitecture16.course.aula1.mapper.RideMapper;
 import cleancodecleanarchitecture16.course.aula1.model.dto.RequestRideDTO;
+import cleancodecleanarchitecture16.course.aula1.model.dto.RideDTO;
 import cleancodecleanarchitecture16.course.aula1.model.exceptions.BusinessException;
 import cleancodecleanarchitecture16.course.aula1.repository.RideRepository;
 import cleancodecleanarchitecture16.course.aula1.service.AccountService;
@@ -28,5 +29,10 @@ public class RideServiceImpl implements RideService {
         if (Boolean.TRUE.equals(hasActiveRide))
             throw new BusinessException("Passenger has an active ride");
         return rideRepository.save(rideMapper.buildRide(requestRideDTO)).getRideId();
+    }
+
+    @Override
+    public RideDTO findByRideId(UUID rideId) {
+        return null;
     }
 }

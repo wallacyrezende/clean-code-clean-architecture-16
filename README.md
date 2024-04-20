@@ -21,7 +21,8 @@ mvn spring-boot:run
 A aplicação estará disponível em http://localhost:8080.
 
 ## Endpoints Principais
-POST /signup: Endpoint para cadastrar um novo usuário na plataforma.
+POST api/account/signup: Endpoint para cadastrar uma nova conta.
+POST api/ride/request-ride: Endpoint para cadastrar uma nova corrida.
 
 ## Executando Testes
 Para executar os testes da aplicação, utilize o seguinte comando:
