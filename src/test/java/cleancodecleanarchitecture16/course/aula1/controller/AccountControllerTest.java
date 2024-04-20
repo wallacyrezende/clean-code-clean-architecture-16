@@ -24,14 +24,14 @@ import java.util.UUID;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-@DisplayName("Signup Controller tests")
+@DisplayName("Account Controller tests")
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles("test")
-@WebMvcTest(controllers = SignupController.class)
+@WebMvcTest(controllers = AccountController.class)
 @AutoConfigureMockMvc
-class SignupControllerTest {
+class AccountControllerTest {
 
-    private static final String API = "/api";
+    private static final String API = "/api/account";
     private static final MediaType JSON = MediaType.APPLICATION_JSON;
     public static final String SIGNUP_ENDPOINT = "/signup";
     @Autowired

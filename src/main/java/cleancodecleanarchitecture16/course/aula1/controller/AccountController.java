@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.UUID;
 
-@Tag(name = "Signup Controller")
+@Tag(name = "Account Controller")
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/account")
 @RequiredArgsConstructor
-public class SignupController {
+public class AccountController {
 
     private final AccountService accountService;
 

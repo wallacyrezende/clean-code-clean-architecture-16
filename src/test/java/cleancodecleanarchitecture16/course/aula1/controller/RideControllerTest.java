@@ -31,7 +31,7 @@ import static org.mockito.Mockito.when;
 @AutoConfigureMockMvc
 class RideControllerTest {
 
-    private static final String API = "/api";
+    private static final String API = "/api/ride";
     private static final MediaType JSON = MediaType.APPLICATION_JSON;
     public static final String REQUEST_RIDE_ENDPOINT = "/request-ride";
     @Autowired
