@@ -12,50 +12,63 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
 @Entity
 @Builder
-@Table(name = "account")
-public class Account {
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "ride")
+public class Ride {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID accountId;
+    private UUID rideId;
 
-    @Column(nullable = false)
-    private String name;
+    @Column
+    private UUID passengerId;
 
-    @Column(nullable = false)
-    private String email;
+    @Column
+    private UUID driverId;
 
-    @Column(nullable = false)
-    private String cpf;
+    @Column
+    private String status;
 
-    @Column(nullable = false)
-    private String carPlate;
+    @Column
+    private Long fare;
 
-    @Column(nullable = false)
-    private Boolean isPassenger;
+    @Column
+    private Long distance;
 
-    @Column(nullable = false)
-    private Boolean isDriver;
+    @Column
+    private Long fromLat;
+
+    @Column
+    private Long fromLong;
+
+    @Column
+    private Long toLat;
+
+    @Column
+    private Long toLong;
+
+    @Column
+    private LocalDateTime date;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Account account = (Account) o;
-        return Objects.equals(accountId, account.accountId);
+        Ride ride = (Ride) o;
+        return Objects.equals(rideId, ride.rideId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(accountId);
+        return Objects.hash(rideId);
     }
 }

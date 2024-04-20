@@ -1,4 +1,4 @@
-package cleancodecleanarchitecture16.course.aula1;
+package cleancodecleanarchitecture16.course.aula1.controller;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,6 +13,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class SignupResponse {
+public class RideResponse {
     private UUID id;
 }

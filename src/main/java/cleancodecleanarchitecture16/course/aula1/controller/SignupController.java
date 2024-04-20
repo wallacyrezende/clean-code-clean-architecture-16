@@ -1,6 +1,5 @@
 package cleancodecleanarchitecture16.course.aula1.controller;
 
-import cleancodecleanarchitecture16.course.aula1.SignupResponse;
 import cleancodecleanarchitecture16.course.aula1.model.dto.AccountDTO;
 import cleancodecleanarchitecture16.course.aula1.service.AccountService;
 import io.swagger.v3.oas.annotations.Operation;

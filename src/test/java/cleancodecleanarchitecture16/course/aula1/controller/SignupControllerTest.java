@@ -1,6 +1,5 @@
-package cleancodecleanarchitecture16.course.aula1;
+package cleancodecleanarchitecture16.course.aula1.controller;
 
-import cleancodecleanarchitecture16.course.aula1.controller.SignupController;
 import cleancodecleanarchitecture16.course.aula1.model.dto.AccountDTO;
 import cleancodecleanarchitecture16.course.aula1.model.exceptions.BusinessException;
 import cleancodecleanarchitecture16.course.aula1.service.AccountService;
