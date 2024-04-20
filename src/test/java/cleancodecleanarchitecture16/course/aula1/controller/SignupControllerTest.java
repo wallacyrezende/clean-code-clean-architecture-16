@@ -56,9 +56,9 @@ class SignupControllerTest {
     }
 
     @Test
-    @DisplayName("Should validate car plate and return code -5")
+    @DisplayName("Should return bad request when signup")
     void shouldValidateCarPlate() throws Exception {
-        when(accountService.create(any(AccountDTO.class))).thenThrow(new BusinessException("Car plate is invalid",-5));
+        when(accountService.create(any(AccountDTO.class))).thenThrow(new BusinessException(""));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .post(API.concat(SIGNUP_ENDPOINT))
@@ -68,80 +68,8 @@ class SignupControllerTest {
         mvc
                 .perform(request)
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.jsonPath("message").value("Car plate is invalid"))
-                .andExpect(MockMvcResultMatchers.jsonPath("code").value("-5"))
-                .andExpect(MockMvcResultMatchers.jsonPath("details").value("uri=".concat(API.concat(SIGNUP_ENDPOINT))));
-    }
-
-    @Test
-    @DisplayName("Should validate account already exists and return code -4")
-    void shouldValidateAccountAlreadyExists() throws Exception {
-        when(accountService.create(any(AccountDTO.class))).thenThrow(new BusinessException("Email already exists",-4));
-
-        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
-                .post(API.concat(SIGNUP_ENDPOINT))
-                .accept(JSON)
-                .contentType(JSON)
-                .content(new ObjectMapper().writeValueAsString(buildAccountDTO()));
-        mvc
-                .perform(request)
-                .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.jsonPath("message").value("Email already exists"))
-                .andExpect(MockMvcResultMatchers.jsonPath("code").value("-4"))
-                .andExpect(MockMvcResultMatchers.jsonPath("details").value("uri=".concat(API.concat(SIGNUP_ENDPOINT))));
-    }
-
-    @Test
-    @DisplayName("Should validate name and return code -3")
-    void shouldValidateName() throws Exception {
-        when(accountService.create(any(AccountDTO.class))).thenThrow(new BusinessException("Name is invalid",-3));
-
-        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
-                .post(API.concat(SIGNUP_ENDPOINT))
-                .accept(JSON)
-                .contentType(JSON)
-                .content(new ObjectMapper().writeValueAsString(buildAccountDTO()));
-        mvc
-                .perform(request)
-                .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.jsonPath("message").value("Name is invalid"))
-                .andExpect(MockMvcResultMatchers.jsonPath("code").value("-3"))
-                .andExpect(MockMvcResultMatchers.jsonPath("details").value("uri=".concat(API.concat(SIGNUP_ENDPOINT))));
-    }
-
-    @Test
-    @DisplayName("Should validate email and return code -2")
-    void shouldValidateEmail() throws Exception {
-        when(accountService.create(any(AccountDTO.class))).thenThrow(new BusinessException("Email is invalid",-2));
-
-        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
-                .post(API.concat(SIGNUP_ENDPOINT))
-                .accept(JSON)
-                .contentType(JSON)
-                .content(new ObjectMapper().writeValueAsString(buildAccountDTO()));
-        mvc
-                .perform(request)
-                .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.jsonPath("message").value("Email is invalid"))
-                .andExpect(MockMvcResultMatchers.jsonPath("code").value("-2"))
-                .andExpect(MockMvcResultMatchers.jsonPath("details").value("uri=".concat(API.concat(SIGNUP_ENDPOINT))));
-    }
-
-    @Test
-    @DisplayName("Should validate cpf and return code -1")
-    void shouldValidateCpf() throws Exception {
-        when(accountService.create(any(AccountDTO.class))).thenThrow(new BusinessException("Cpf is invalid",-1));
-
-        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
-                .post(API.concat(SIGNUP_ENDPOINT))
-                .accept(JSON)
-                .contentType(JSON)
-                .content(new ObjectMapper().writeValueAsString(buildAccountDTO()));
-        mvc
-                .perform(request)
-                .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.jsonPath("message").value("Cpf is invalid"))
-                .andExpect(MockMvcResultMatchers.jsonPath("code").value("-1"))
+                .andExpect(MockMvcResultMatchers.jsonPath("message").value(""))
+                .andExpect(MockMvcResultMatchers.jsonPath("code").value("100"))
                 .andExpect(MockMvcResultMatchers.jsonPath("details").value("uri=".concat(API.concat(SIGNUP_ENDPOINT))));
     }
 
