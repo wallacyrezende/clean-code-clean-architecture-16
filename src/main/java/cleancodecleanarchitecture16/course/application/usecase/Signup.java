@@ -1,11 +1,10 @@
-package cleancodecleanarchitecture16.course.aula1.application.usecase;
+package cleancodecleanarchitecture16.course.application.usecase;
 
-import cleancodecleanarchitecture16.course.aula1.domain.Account;
-import cleancodecleanarchitecture16.course.aula1.infra.repository.AccountRepository;
-import cleancodecleanarchitecture16.course.aula1.model.exceptions.BusinessException;
+import cleancodecleanarchitecture16.course.domain.Account;
+import cleancodecleanarchitecture16.course.domain.ValidateCpf;
+import cleancodecleanarchitecture16.course.infra.repository.AccountRepository;
+import cleancodecleanarchitecture16.course.model.exceptions.BusinessException;
 import org.springframework.stereotype.Component;
-
-import static cleancodecleanarchitecture16.course.aula1.domain.ValidateCpf.validate;
 
 @Component
 public class Signup extends UseCase<Signup.Input, Signup.Output> {
@@ -44,7 +43,7 @@ public class Signup extends UseCase<Signup.Input, Signup.Output> {
     }
 
     private static boolean cpfIsValid(final Input input) {
-        return validate(input.cpf());
+        return ValidateCpf.validate(input.cpf());
     }
 
     public record Input(String name, String email, String cpf, String carPlate, Boolean isPassenger, Boolean isDriver) {

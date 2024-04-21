@@ -1,4 +1,4 @@
-package cleancodecleanarchitecture16.course.aula1.model.dto;
+package cleancodecleanarchitecture16.course.model.dto;
 
 import lombok.Builder;
 import lombok.Getter;

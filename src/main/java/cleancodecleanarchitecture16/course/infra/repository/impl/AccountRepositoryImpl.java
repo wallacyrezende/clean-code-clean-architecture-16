@@ -1,9 +1,9 @@
-package cleancodecleanarchitecture16.course.aula1.infra.repository.impl;
+package cleancodecleanarchitecture16.course.infra.repository.impl;
 
-import cleancodecleanarchitecture16.course.aula1.domain.Account;
-import cleancodecleanarchitecture16.course.aula1.infra.jpa.entities.AccountEntity;
-import cleancodecleanarchitecture16.course.aula1.infra.jpa.repositories.AccountJpaRepository;
-import cleancodecleanarchitecture16.course.aula1.infra.repository.AccountRepository;
+import cleancodecleanarchitecture16.course.domain.Account;
+import cleancodecleanarchitecture16.course.infra.database.entities.AccountEntity;
+import cleancodecleanarchitecture16.course.infra.database.repositories.AccountJpaRepository;
+import cleancodecleanarchitecture16.course.infra.repository.AccountRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 

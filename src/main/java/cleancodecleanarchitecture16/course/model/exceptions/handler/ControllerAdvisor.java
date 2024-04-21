@@ -1,6 +1,6 @@
-package cleancodecleanarchitecture16.course.aula1.model.exceptions.handler;
+package cleancodecleanarchitecture16.course.model.exceptions.handler;
 
-import cleancodecleanarchitecture16.course.aula1.model.exceptions.BusinessException;
+import cleancodecleanarchitecture16.course.model.exceptions.BusinessException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

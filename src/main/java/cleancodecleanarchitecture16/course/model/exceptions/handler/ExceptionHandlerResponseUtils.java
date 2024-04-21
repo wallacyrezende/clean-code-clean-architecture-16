@@ -1,4 +1,4 @@
-package cleancodecleanarchitecture16.course.aula1.model.exceptions.handler;
+package cleancodecleanarchitecture16.course.model.exceptions.handler;
 
 import org.springframework.web.context.request.WebRequest;
 

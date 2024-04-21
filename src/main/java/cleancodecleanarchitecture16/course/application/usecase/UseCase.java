@@ -1,4 +1,4 @@
-package cleancodecleanarchitecture16.course.aula1.application.usecase;
+package cleancodecleanarchitecture16.course.application.usecase;
 
 public abstract class UseCase<INPUT, OUTPUT> {
 

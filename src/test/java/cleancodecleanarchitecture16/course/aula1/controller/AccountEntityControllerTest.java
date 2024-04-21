@@ -1,7 +1,7 @@
 package cleancodecleanarchitecture16.course.aula1.controller;
 
-import cleancodecleanarchitecture16.course.aula1.infra.jpa.repositories.AccountJpaRepository;
-import cleancodecleanarchitecture16.course.aula1.model.dto.AccountDTO;
+import cleancodecleanarchitecture16.course.infra.database.repositories.AccountJpaRepository;
+import cleancodecleanarchitecture16.course.model.dto.AccountDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

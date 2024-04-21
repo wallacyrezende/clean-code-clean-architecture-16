@@ -1,7 +1,7 @@
-package cleancodecleanarchitecture16.course.aula1.infra.repository;
+package cleancodecleanarchitecture16.course.infra.repository;
 
 
-import cleancodecleanarchitecture16.course.aula1.domain.Account;
+import cleancodecleanarchitecture16.course.domain.Account;
 
 import java.util.Optional;
 

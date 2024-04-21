@@ -1,7 +1,7 @@
-package cleancodecleanarchitecture16.course.aula1.controller;
+package cleancodecleanarchitecture16.course.infra.http;
 
-import cleancodecleanarchitecture16.course.aula1.application.usecase.Signup;
-import cleancodecleanarchitecture16.course.aula1.model.dto.AccountDTO;
+import cleancodecleanarchitecture16.course.application.usecase.Signup;
+import cleancodecleanarchitecture16.course.model.dto.AccountDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

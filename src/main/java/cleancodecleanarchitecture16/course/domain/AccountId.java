@@ -1,4 +1,4 @@
-package cleancodecleanarchitecture16.course.aula1.domain;
+package cleancodecleanarchitecture16.course.domain;
 
 import java.util.UUID;
 

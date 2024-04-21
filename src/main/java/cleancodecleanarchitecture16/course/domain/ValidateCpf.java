@@ -1,4 +1,4 @@
-package cleancodecleanarchitecture16.course.aula1.domain;
+package cleancodecleanarchitecture16.course.domain;
 
 public class ValidateCpf {
     private static final int FACTOR_FIRST_DIGIT = 10;

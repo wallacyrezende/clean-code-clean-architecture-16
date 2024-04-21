@@ -1,6 +1,6 @@
-package cleancodecleanarchitecture16.course.aula1.infra.jpa.repositories;
+package cleancodecleanarchitecture16.course.infra.database.repositories;
 
-import cleancodecleanarchitecture16.course.aula1.infra.jpa.entities.AccountEntity;
+import cleancodecleanarchitecture16.course.infra.database.entities.AccountEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

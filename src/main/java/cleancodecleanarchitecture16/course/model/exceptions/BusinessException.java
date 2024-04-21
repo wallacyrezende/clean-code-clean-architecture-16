@@ -1,4 +1,4 @@
-package cleancodecleanarchitecture16.course.aula1.model.exceptions;
+package cleancodecleanarchitecture16.course.model.exceptions;
 
 import lombok.Getter;
 
