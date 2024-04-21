@@ -3,6 +3,7 @@ package cleancodecleanarchitecture16.course.aula1.controller;
 import cleancodecleanarchitecture16.course.infra.database.repositories.AccountJpaRepository;
 import cleancodecleanarchitecture16.course.model.dto.AccountDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,11 @@ class AccountEntityControllerTest {
     @Autowired
     private AccountJpaRepository accountJpaRepository;
 
+    @BeforeEach
+    void setUp() {
+        accountJpaRepository.deleteAll();
+    }
+
     @Test
     @DisplayName("Should signup a account and generate account id")
     void shouldSignupAndGenerateAccountId() throws Exception {
@@ -40,7 +46,7 @@ class AccountEntityControllerTest {
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .post(API.concat(SIGNUP_ENDPOINT))
-                .contentType(MediaType.APPLICATION_JSON)
+                .contentType(JSON)
                 .content(mapper.writeValueAsString(accountDTO));
         final var result = mvc
                 .perform(request)
@@ -59,7 +65,7 @@ class AccountEntityControllerTest {
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .post(API.concat(SIGNUP_ENDPOINT))
-                .contentType(MediaType.APPLICATION_JSON)
+                .contentType(JSON)
                 .content(mapper.writeValueAsString(accountDTO));
         mvc
                 .perform(request)
@@ -71,7 +77,7 @@ class AccountEntityControllerTest {
                 .perform(request)
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andExpect(MockMvcResultMatchers.jsonPath("message").value("Email already exists"))
-                .andExpect(MockMvcResultMatchers.jsonPath("code").value("-4"))
+                .andExpect(MockMvcResultMatchers.jsonPath("code").value("100"))
                 .andExpect(MockMvcResultMatchers.jsonPath("details").value("uri=".concat(API.concat(SIGNUP_ENDPOINT))));
     }
 

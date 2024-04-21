@@ -46,12 +46,12 @@ public class AccountEntity {
     private Boolean isDriver;
 
     public static AccountEntity of(final Account account) {
-        return new AccountEntity(UUID.fromString(account.accountId().value()), account.name(), account.email(), account.cpf(),
-                account.carPlate(), account.isPassenger(), account.isDriver());
+        return new AccountEntity(UUID.fromString(account.accountId().value()), account.name().value(), account.email().value(),
+                account.cpf().value(), account.carPlate(), account.isPassenger(), account.isDriver());
     }
 
     public Account toAccount() {
-        return new Account(AccountId.with(accountId.toString()), name, email, cpf, carPlate, isPassenger, isDriver);
+        return Account.restore(AccountId.with(accountId.toString()), name, email, cpf, carPlate, isPassenger, isDriver);
     }
 
     @Override
