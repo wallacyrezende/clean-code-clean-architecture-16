@@ -1,6 +1,6 @@
-package cleancodecleanarchitecture16.course.aula1;
+package cleancodecleanarchitecture16.course.aula1.domain;
 
-public class validateCpf {
+public class ValidateCpf {
     private static final int FACTOR_FIRST_DIGIT = 10;
     private static final int FACTOR_SECOND_DIGIT = 11;
 

@@ -1,9 +1,9 @@
-package cleancodecleanarchitecture16.course.aula1.model.entities;
+package cleancodecleanarchitecture16.course.aula1.infra.jpa.entities;
 
+import cleancodecleanarchitecture16.course.aula1.domain.Account;
+import cleancodecleanarchitecture16.course.aula1.domain.AccountId;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -22,10 +22,9 @@ import java.util.UUID;
 @Entity
 @Builder
 @Table(name = "account")
-public class Account {
+public class AccountEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID accountId;
 
     @Column(nullable = false)
@@ -46,12 +45,21 @@ public class Account {
     @Column(nullable = false)
     private Boolean isDriver;
 
+    public static AccountEntity of(final Account account) {
+        return new AccountEntity(UUID.fromString(account.accountId().value()), account.name(), account.email(), account.cpf(),
+                account.carPlate(), account.isPassenger(), account.isDriver());
+    }
+
+    public Account toAccount() {
+        return new Account(AccountId.with(accountId.toString()), name, email, cpf, carPlate, isPassenger, isDriver);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Account account = (Account) o;
-        return Objects.equals(accountId, account.accountId);
+        AccountEntity accountEntity = (AccountEntity) o;
+        return Objects.equals(accountId, accountEntity.accountId);
     }
 
     @Override
