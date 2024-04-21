@@ -61,7 +61,6 @@ class AccountEntityControllerTest {
                 .post(API.concat(SIGNUP_ENDPOINT))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(accountDTO));
-
         mvc
                 .perform(request)
                 .andExpect(MockMvcResultMatchers.status().isCreated())
