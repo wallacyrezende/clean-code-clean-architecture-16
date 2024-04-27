@@ -1,5 +1,10 @@
-package cleancodecleanarchitecture16.course.domain;
+package cleancodecleanarchitecture16.course.domain.entity;
 
+import cleancodecleanarchitecture16.course.domain.vo.AccountId;
+import cleancodecleanarchitecture16.course.domain.vo.CarPlate;
+import cleancodecleanarchitecture16.course.domain.vo.Cpf;
+import cleancodecleanarchitecture16.course.domain.vo.Email;
+import cleancodecleanarchitecture16.course.domain.vo.Name;
 import cleancodecleanarchitecture16.course.model.exceptions.BusinessException;
 
 import java.util.Objects;

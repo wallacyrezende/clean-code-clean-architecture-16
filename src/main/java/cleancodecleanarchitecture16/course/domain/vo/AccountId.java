@@ -1,4 +1,4 @@
-package cleancodecleanarchitecture16.course.domain;
+package cleancodecleanarchitecture16.course.domain.vo;
 
 import java.util.UUID;
 
@@ -6,7 +6,7 @@ public record AccountId(String value) {
 
     public AccountId {
         if (value == null || value.trim().isEmpty()) {
-            throw new IllegalArgumentException("Invalid value for account id");
+            throw new IllegalArgumentException("Invalid value for account accountId");
         }
     }
 
@@ -18,7 +18,7 @@ public record AccountId(String value) {
         try {
             return new AccountId(UUID.fromString(value).toString());
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Invalid value for account id");
+            throw new IllegalArgumentException("Invalid value for account accountId");
         }
     }
 }

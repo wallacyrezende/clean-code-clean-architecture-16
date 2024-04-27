@@ -1,7 +1,7 @@
 package cleancodecleanarchitecture16.course.infra.database.entities;
 
-import cleancodecleanarchitecture16.course.domain.Account;
-import cleancodecleanarchitecture16.course.domain.AccountId;
+import cleancodecleanarchitecture16.course.domain.entity.Account;
+import cleancodecleanarchitecture16.course.domain.vo.AccountId;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

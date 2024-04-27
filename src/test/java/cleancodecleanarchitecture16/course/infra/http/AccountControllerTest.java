@@ -37,7 +37,7 @@ class AccountControllerTest extends IntegrationTest {
     }
 
     @Test
-    @DisplayName("Should signup a account and generate account id")
+    @DisplayName("Should signup a account and generate account accountId")
     void shouldSignupAndGenerateAccountId() throws Exception {
         var accountDTO = buildAccountDTO();
 
@@ -49,7 +49,7 @@ class AccountControllerTest extends IntegrationTest {
                 .perform(request)
                 .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andExpect(MockMvcResultMatchers.header().exists("Location"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id").isString())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.accountId").isString())
                 .andReturn().getResponse().getContentAsString();
 
         assertNotNull(result);
@@ -68,7 +68,7 @@ class AccountControllerTest extends IntegrationTest {
                 .perform(request)
                 .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andExpect(MockMvcResultMatchers.header().exists("Location"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id").isString())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.accountId").isString())
                 .andReturn().getResponse().getContentAsByteArray();
         mvc
                 .perform(request)
@@ -83,9 +83,9 @@ class AccountControllerTest extends IntegrationTest {
                 .name("John Doe")
                 .email("exemplo@email.com")
                 .cpf("188.058.750-58")
-                .carPlate("ABC1234")
+                .carPlate(null)
                 .isPassenger(true)
-                .isDriver(false)
+                .isDriver(null)
                 .build();
     }
 }

@@ -1,5 +1,6 @@
 package cleancodecleanarchitecture16.course.infra.config;
 
+import cleancodecleanarchitecture16.course.application.usecase.GetAccount;
 import cleancodecleanarchitecture16.course.application.usecase.Signup;
 import cleancodecleanarchitecture16.course.infra.gateway.MailerGateway;
 import cleancodecleanarchitecture16.course.infra.repository.AccountRepository;
@@ -20,5 +21,10 @@ public class UseCaseConfig {
     @Bean
     public Signup signup() {
         return new Signup(accountRepository, mailerGateway);
+    }
+
+    @Bean
+    public GetAccount getAccount() {
+        return new GetAccount(accountRepository);
     }
 }

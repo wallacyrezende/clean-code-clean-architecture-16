@@ -1,6 +1,7 @@
 package cleancodecleanarchitecture16.course.application.usecase;
 
-import cleancodecleanarchitecture16.course.domain.Account;
+import cleancodecleanarchitecture16.course.domain.entity.Account;
+import cleancodecleanarchitecture16.course.domain.vo.Email;
 import cleancodecleanarchitecture16.course.infra.gateway.MailerGateway;
 import cleancodecleanarchitecture16.course.infra.repository.AccountRepository;
 import cleancodecleanarchitecture16.course.model.exceptions.BusinessException;
@@ -25,13 +26,13 @@ public class Signup extends UseCase<Signup.Input, Signup.Output> {
     }
 
     private void validateEmailAlreadyExists(final Input input) {
-        if (accountRepository.findByEmail(input.email()).isPresent())
+        if (accountRepository.findByEmail(new Email(input.email())).isPresent())
             throw new BusinessException("Email already exists");
     }
 
     public record Input(String name, String email, String cpf, String carPlate, Boolean isPassenger, Boolean isDriver) {
     }
 
-    public record Output(String id) {
+    public record Output(String accountId) {
     }
 }

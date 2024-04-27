@@ -31,6 +31,6 @@ public class AccountController {
                 new Signup.Input(accountDTO.getName(), accountDTO.getEmail(), accountDTO.getCpf(), accountDTO.getCarPlate(),
                         accountDTO.getIsPassenger(), accountDTO.getIsDriver());
         final var output = signup.execute(input);
-        return ResponseEntity.created(URI.create("/api/account/" + output.id())).body(output);
+        return ResponseEntity.created(URI.create("/api/account/" + output.accountId())).body(output);
     }
 }

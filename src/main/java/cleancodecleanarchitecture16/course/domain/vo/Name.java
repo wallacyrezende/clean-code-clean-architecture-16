@@ -1,4 +1,4 @@
-package cleancodecleanarchitecture16.course.domain;
+package cleancodecleanarchitecture16.course.domain.vo;
 
 import cleancodecleanarchitecture16.course.model.exceptions.BusinessException;
 

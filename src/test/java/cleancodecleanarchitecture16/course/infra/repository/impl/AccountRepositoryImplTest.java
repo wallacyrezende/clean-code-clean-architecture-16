@@ -1,7 +1,8 @@
 package cleancodecleanarchitecture16.course.infra.repository.impl;
 
 import cleancodecleanarchitecture16.course.IntegrationTest;
-import cleancodecleanarchitecture16.course.domain.Account;
+import cleancodecleanarchitecture16.course.domain.entity.Account;
+import cleancodecleanarchitecture16.course.domain.vo.Email;
 import cleancodecleanarchitecture16.course.infra.repository.AccountRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +41,7 @@ class AccountRepositoryImplTest extends IntegrationTest {
         final var isPassenger = true;
         final var account = Account.create(name, email, cpf, null, isPassenger, null);
         accountRepository.saveAccount(account);
-        final var foundAccount = accountRepository.findByEmail(email);
+        final var foundAccount = accountRepository.findByEmail(new Email(email));
 
         assertTrue(foundAccount.isPresent());
     }
