@@ -45,4 +45,18 @@ class AccountRepositoryImplTest extends IntegrationTest {
 
         assertTrue(foundAccount.isPresent());
     }
+
+    @Test
+    void shouldFindById() {
+        final var name = "John Doe";
+        final var email = "email" + random() + "@email.com";
+        final var cpf = "188.058.750-58";
+        final var isPassenger = true;
+        final var account = Account.create(name, email, cpf, null, isPassenger, null);
+        final var savedAccount = accountRepository.saveAccount(account);
+        final var foundAccount = accountRepository.findById(savedAccount.accountId());
+
+        assertTrue(foundAccount.isPresent());
+        assertEquals(savedAccount.accountId(), foundAccount.get().accountId());
+    }
 }

@@ -38,7 +38,7 @@ public class AccountRepositoryImpl implements AccountRepository {
 
     @Override
     public Optional<Account> findById(AccountId id) {
-        Objects.requireNonNull(id, "Email cannot be null");
+        Objects.requireNonNull(id, "AccountId cannot be null");
         return accountJpaRepository.findById(UUID.fromString(id.value()))
                 .map(AccountEntity::toAccount);
     }
