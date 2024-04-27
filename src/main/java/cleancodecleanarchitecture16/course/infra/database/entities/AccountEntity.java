@@ -47,7 +47,7 @@ public class AccountEntity {
 
     public static AccountEntity of(final Account account) {
         return new AccountEntity(UUID.fromString(account.accountId().value()), account.name().value(), account.email().value(),
-                account.cpf().value(), account.carPlate(), account.isPassenger(), account.isDriver());
+                account.cpf().value(), account.carPlate().value(), account.isPassenger(), account.isDriver());
     }
 
     public Account toAccount() {

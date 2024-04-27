@@ -4,15 +4,13 @@ import cleancodecleanarchitecture16.course.model.exceptions.BusinessException;
 
 import java.util.Objects;
 
-import static java.lang.Boolean.TRUE;
-
 public class Account {
 
     private final AccountId accountId;
     private Name name;
     private Email email;
     private Cpf cpf;
-    private String carPlate;
+    private CarPlate carPlate;
     private Boolean isPassenger;
     private Boolean isDriver;
 
@@ -20,8 +18,6 @@ public class Account {
                     final Boolean isPassenger, final Boolean isDriver) {
         if (accountId == null)
             throw new BusinessException("Invalid accountId for Account");
-        if (TRUE.equals(isDriver) && carPlate != null && !carPlate.matches("[A-Z]{3}[0-9]{4}"))
-            throw new BusinessException("Car plate is invalid");
         this.accountId = accountId;
         this.setName(name);
         this.setEmail(email);
@@ -57,7 +53,7 @@ public class Account {
         return cpf;
     }
 
-    public String carPlate() {
+    public CarPlate carPlate() {
         return carPlate;
     }
 
@@ -82,7 +78,7 @@ public class Account {
     }
 
     public void setCarPlate(String carPlate) {
-        this.carPlate = carPlate;
+        this.carPlate = new CarPlate(carPlate);
     }
 
     public void setIsPassenger(Boolean isPassenger) {
