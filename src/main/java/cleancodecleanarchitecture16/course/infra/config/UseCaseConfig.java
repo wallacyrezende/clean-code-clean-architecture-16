@@ -9,6 +9,8 @@ import cleancodecleanarchitecture16.course.infra.repository.RideRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import static java.util.Objects.requireNonNull;
+
 @Configuration
 public class UseCaseConfig {
 
@@ -17,9 +19,9 @@ public class UseCaseConfig {
     private final MailerGateway mailerGateway;
 
     public UseCaseConfig(AccountRepository accountRepository, RideRepository rideRepository, MailerGateway mailerGateway) {
-        this.accountRepository = accountRepository;
-        this.rideRepository = rideRepository;
-        this.mailerGateway = mailerGateway;
+        this.accountRepository = requireNonNull(accountRepository);
+        this.rideRepository = requireNonNull(rideRepository);
+        this.mailerGateway = requireNonNull(mailerGateway);
     }
 
     @Bean
