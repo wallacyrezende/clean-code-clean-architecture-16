@@ -1,7 +1,6 @@
 package cleancodecleanarchitecture16.course.model.exceptions.handler;
 
 import cleancodecleanarchitecture16.course.model.exceptions.BusinessException;
-import cleancodecleanarchitecture16.course.model.exceptions.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -27,16 +26,7 @@ public class ControllerAdvisor {
     public ResponseEntity<?> handleBusinessException(BusinessException ex, WebRequest request) {
         ex.printStackTrace();
         ExceptionResponse exceptionResponse = ExceptionHandlerResponseUtils.buildExceptionResponse(ex, request);
-        exceptionResponse.setCode(ex.getCode());
         logger.error(exceptionResponse.toString());
         return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<?> handleNotFoundException(NotFoundException ex, WebRequest request) {
-        ex.printStackTrace();
-        ExceptionResponse exceptionResponse = ExceptionHandlerResponseUtils.buildExceptionResponse(ex, request);
-        logger.info(exceptionResponse.toString());
-        return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
     }
 }

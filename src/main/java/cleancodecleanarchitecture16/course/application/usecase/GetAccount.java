@@ -2,9 +2,10 @@ package cleancodecleanarchitecture16.course.application.usecase;
 
 import cleancodecleanarchitecture16.course.domain.vo.AccountId;
 import cleancodecleanarchitecture16.course.infra.repository.AccountRepository;
-import cleancodecleanarchitecture16.course.model.exceptions.BusinessException;
 
-public class GetAccount extends UseCase<GetAccount.Input, GetAccount.Output> {
+import java.util.Optional;
+
+public class GetAccount extends UseCase<GetAccount.Input, Optional<GetAccount.Output>> {
 
     private final AccountRepository accountRepository;
 
@@ -13,7 +14,7 @@ public class GetAccount extends UseCase<GetAccount.Input, GetAccount.Output> {
     }
 
     @Override
-    public Output execute(final Input input) {
+    public Optional<Output> execute(final Input input) {
         return accountRepository.findById(AccountId.with(input.accountId))
                 .map(account -> new Output(account.accountId().value(),
                         account.name().value(),
@@ -21,8 +22,7 @@ public class GetAccount extends UseCase<GetAccount.Input, GetAccount.Output> {
                         account.cpf().value(),
                         account.carPlate().value(),
                         account.isPassenger(),
-                        account.isDriver()))
-                .orElseThrow(() -> new BusinessException("Account not found"));
+                        account.isDriver()));
     }
 
     public record Input(String accountId) {}

@@ -25,7 +25,7 @@ public class GetAccountTest extends IntegrationTest {
         final var savedAccount = accountRepository.saveAccount(Account.create(name, email, cpf, null, isPassenger, null));
         final var input = new GetAccount.Input(savedAccount.accountId().value());
 
-        final var output = getAccount.execute(input);
+        final var output = getAccount.execute(input).get();
 
         assertEquals(savedAccount.accountId().value(), output.accountId());
         assertEquals(name, output.name());

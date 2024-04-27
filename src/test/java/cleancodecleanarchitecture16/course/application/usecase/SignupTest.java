@@ -23,7 +23,7 @@ class SignupTest extends IntegrationTest {
     private MailerGateway mailerGateway;
 
     @Test
-    @DisplayName("Should create a account to passenger")
+    @DisplayName("Should create an account to passenger")
     void shouldSignupAPassenger() {
         final var name = "John Doe";
         final var email = "email" + random() + "@email.com";
@@ -37,7 +37,7 @@ class SignupTest extends IntegrationTest {
     }
 
     @Test
-    @DisplayName("Should create a account to driver")
+    @DisplayName("Should create an account to driver")
     void shouldSignupADriver() {
         final var name = "John Doe";
         final var email = "email" + random() + "@email.com";
@@ -52,8 +52,8 @@ class SignupTest extends IntegrationTest {
     }
 
     @Test
-    @DisplayName("Should not create a account with invalid name")
-    void shouldNotSignupAAccountWithInvalidName() {
+    @DisplayName("Should not create an account with invalid name")
+    void shouldNotSignupAnAccountWithInvalidName() {
         final var name = "John1 Doe";
         final var email = "email" + random() + "@email.com";
         final var cpf = "188.058.750-58";
@@ -66,8 +66,8 @@ class SignupTest extends IntegrationTest {
     }
 
     @Test
-    @DisplayName("Should not create a account with invalid email")
-    void shouldNotSignupAAccountWithInvalidEmail() {
+    @DisplayName("Should not create an account with invalid email")
+    void shouldNotSignupAnAccountWithInvalidEmail() {
         final var name = "John Doe";
         final var email = "email" + random();
         final var cpf = "188.058.750-58";
@@ -80,8 +80,8 @@ class SignupTest extends IntegrationTest {
     }
 
     @Test
-    @DisplayName("Should not create a account with invalid cpf")
-    void shouldNotSignupAAccountWithInvalidCpf() {
+    @DisplayName("Should not create an account with invalid cpf")
+    void shouldNotSignupAnAccountWithInvalidCpf() {
         final var name = "John Doe";
         final var email = "email" + random() + "@email.com";
         final var cpf = "123.456.789-10";
@@ -94,8 +94,8 @@ class SignupTest extends IntegrationTest {
     }
 
     @Test
-    @DisplayName("Should not create a account to driver with invalid name")
-    void shouldNotSignupAAccountToDriverWithInvalidName() {
+    @DisplayName("Should not create an account to driver with invalid name")
+    void shouldNotSignupAnAccountToDriverWithInvalidName() {
         final var name = "John1 Doe";
         final var email = "email" + random() + "@email.com";
         final var cpf = "188.058.750-58";
