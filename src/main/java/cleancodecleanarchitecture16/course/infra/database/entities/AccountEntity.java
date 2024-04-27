@@ -36,13 +36,13 @@ public class AccountEntity {
     @Column(nullable = false)
     private String cpf;
 
-    @Column(nullable = false)
+    @Column
     private String carPlate;
 
-    @Column(nullable = false)
+    @Column
     private Boolean isPassenger;
 
-    @Column(nullable = false)
+    @Column
     private Boolean isDriver;
 
     public static AccountEntity of(final Account account) {

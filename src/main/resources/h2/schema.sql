@@ -1,6 +1,6 @@
-create schema cccat16;
+create schema if not exists cccat16;
 
-create table cccat16.account (
+create table if not exists cccat16.account (
 	account_id uuid primary key,
 	name text not null,
 	email text not null,
@@ -10,7 +10,7 @@ create table cccat16.account (
 	is_driver boolean not null default false
 );
 
-create table cccat16.ride (
+create table if not exists cccat16.ride (
     ride_id uuid,
     passenger_id uuid,
     driver_id uuid,

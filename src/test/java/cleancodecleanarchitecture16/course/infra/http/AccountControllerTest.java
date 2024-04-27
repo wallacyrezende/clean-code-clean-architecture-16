@@ -1,5 +1,6 @@
-package cleancodecleanarchitecture16.course.aula1.controller;
+package cleancodecleanarchitecture16.course.infra.http;
 
+import cleancodecleanarchitecture16.course.IntegrationTest;
 import cleancodecleanarchitecture16.course.infra.database.repositories.AccountJpaRepository;
 import cleancodecleanarchitecture16.course.model.dto.AccountDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -8,9 +9,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -19,10 +18,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @DisplayName("Account Controller tests")
-@ActiveProfiles("test")
 @AutoConfigureMockMvc
-@SpringBootTest
-class AccountEntityControllerTest {
+class AccountControllerTest extends IntegrationTest {
 
     private static final String API = "/api/account";
     private static final MediaType JSON = MediaType.APPLICATION_JSON;
@@ -59,8 +56,8 @@ class AccountEntityControllerTest {
     }
 
     @Test
-    @DisplayName("Should return bad request when signup")
-    void shouldValidateEmail() throws Exception {
+    @DisplayName("Should return bad request when trying signup with email already existent")
+    void shouldReturnBadRequestWhenTryingSignupWithEmailAlreadyExistent() throws Exception {
         var accountDTO = buildAccountDTO();
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders

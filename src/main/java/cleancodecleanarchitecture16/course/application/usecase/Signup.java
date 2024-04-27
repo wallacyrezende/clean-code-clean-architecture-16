@@ -4,9 +4,7 @@ import cleancodecleanarchitecture16.course.domain.Account;
 import cleancodecleanarchitecture16.course.infra.gateway.MailerGateway;
 import cleancodecleanarchitecture16.course.infra.repository.AccountRepository;
 import cleancodecleanarchitecture16.course.model.exceptions.BusinessException;
-import org.springframework.stereotype.Component;
 
-@Component
 public class Signup extends UseCase<Signup.Input, Signup.Output> {
 
     private final AccountRepository accountRepository;
