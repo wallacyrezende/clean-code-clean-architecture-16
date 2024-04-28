@@ -1,9 +1,11 @@
 package cleancodecleanarchitecture16.course.domain.entity;
 
 import cleancodecleanarchitecture16.course.domain.vo.AccountId;
+import cleancodecleanarchitecture16.course.domain.vo.Coord;
 import cleancodecleanarchitecture16.course.domain.vo.RideId;
 import cleancodecleanarchitecture16.course.domain.vo.RideStatus;
 import cleancodecleanarchitecture16.course.domain.vo.RideStatusFactory;
+import cleancodecleanarchitecture16.course.domain.vo.Segment;
 import cleancodecleanarchitecture16.course.model.exceptions.BusinessException;
 
 import java.time.LocalDateTime;
@@ -23,18 +25,15 @@ public class Ride {
     private RideStatus status;
     private LocalDateTime date;
 
-    private Ride(final RideId rideId, final AccountId passengerId, final AccountId driverId, final Double fromLat, final Double fromLong,
-                 final Double toLat, final Double toLong, final Double fare, final Double distance, String status, final LocalDateTime date) {
+    private Ride(final RideId rideId, final AccountId passengerId, final AccountId driverId, final Segment segment, final Double fare,
+                 final Double distance, String status, final LocalDateTime date) {
         if (rideId == null)
             throw new BusinessException("Invalid rideId for Ride");
         this.status = RideStatusFactory.create(this, status);
         this.rideId = rideId;
         this.setPassengerId(passengerId);
         this.setDriverId(driverId);
-        this.setFromLat(fromLat);
-        this.setFromLong(fromLong);
-        this.setToLat(toLat);
-        this.setToLong(toLong);
+        this.setSegment(segment);
         this.setFare(fare);
         this.setDistance(distance);
         this.setDate(date);
@@ -44,13 +43,15 @@ public class Ride {
                               final Double toLong) {
         final var status = "requested";
         final var date = LocalDateTime.now();
-        return new Ride(RideId.unique(), passengerId, null, fromLat, fromLong, toLat, toLong, null, null, status, date);
+        return new Ride(RideId.unique(), passengerId, null, new Segment(new Coord(fromLat, fromLong), new Coord(toLat, toLong)),
+                null, null, status, date);
     }
 
     public static Ride restore(final RideId rideId, final AccountId passengerId, final AccountId driverId, final Double fromLat,
                                final Double fromLong, final Double toLat, final Double toLong, final Double fare, final Double distance,
                                final String status, final LocalDateTime date) {
-        return new Ride(rideId, passengerId, driverId, fromLat, fromLong, toLat, toLong, fare, distance, status, date);
+        return new Ride(rideId, passengerId, driverId, new Segment(new Coord(fromLat, fromLong), new Coord(toLat, toLong)),
+                fare, distance, status, date);
     }
 
     public void accept (String driverId) {
@@ -62,8 +63,7 @@ public class Ride {
         this.status.start();
     }
 
-
-        public RideId rideId() {
+    public RideId rideId() {
         return rideId;
     }
     public AccountId passengerId() {
@@ -72,6 +72,10 @@ public class Ride {
 
     public AccountId driverId() {
         return driverId;
+    }
+
+    public Segment segment() {
+        return new Segment(new Coord(fromLat, fromLong), new Coord(toLat, toLong));
     }
 
     public Double fromLat() {
@@ -117,20 +121,11 @@ public class Ride {
         this.driverId = driverId;
     }
 
-    private void setFromLat(Double fromLat) {
-        this.fromLat = fromLat;
-    }
-
-    private void setFromLong(Double fromLong) {
-        this.fromLong = fromLong;
-    }
-
-    private void setToLat(Double toLat) {
-        this.toLat = toLat;
-    }
-
-    private void setToLong(Double toLong) {
-        this.toLong = toLong;
+    private void setSegment(Segment segment) {
+        this.fromLat = segment.from().latitude();
+        this.fromLong = segment.from().longitude();
+        this.toLat = segment.to().latitude();
+        this.toLong = segment.to().longitude();
     }
 
     private void setFare(Double fare) {
