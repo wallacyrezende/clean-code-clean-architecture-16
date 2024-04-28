@@ -23,3 +23,11 @@ create table if not exists cccat16.ride (
     to_long numeric,
     date timestamp
 );
+
+create table if not exists cccat16.position (
+    position_id uuid,
+    ride_id uuid,
+    lat numeric,
+    long numeric,
+    date timestamp
+);
