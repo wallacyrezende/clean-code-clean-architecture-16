@@ -2,6 +2,8 @@ package cleancodecleanarchitecture16.course.domain.entity;
 
 import cleancodecleanarchitecture16.course.domain.vo.AccountId;
 import cleancodecleanarchitecture16.course.domain.vo.RideId;
+import cleancodecleanarchitecture16.course.domain.vo.RideStatus;
+import cleancodecleanarchitecture16.course.domain.vo.RideStatusFactory;
 import cleancodecleanarchitecture16.course.model.exceptions.BusinessException;
 
 import java.time.LocalDateTime;
@@ -18,13 +20,14 @@ public class Ride {
     private Double toLong;
     private Double fare;
     private Double distance;
-    private String status;
+    private RideStatus status;
     private LocalDateTime date;
 
     private Ride(final RideId rideId, final AccountId passengerId, final AccountId driverId, final Double fromLat, final Double fromLong,
                  final Double toLat, final Double toLong, final Double fare, final Double distance, String status, final LocalDateTime date) {
         if (rideId == null)
             throw new BusinessException("Invalid rideId for Ride");
+        this.status = RideStatusFactory.create(this, status);
         this.rideId = rideId;
         this.setPassengerId(passengerId);
         this.setDriverId(driverId);
@@ -34,7 +37,6 @@ public class Ride {
         this.setToLong(toLong);
         this.setFare(fare);
         this.setDistance(distance);
-        this.setStatus(status);
         this.setDate(date);
     }
 
@@ -51,7 +53,12 @@ public class Ride {
         return new Ride(rideId, passengerId, driverId, fromLat, fromLong, toLat, toLong, fare, distance, status, date);
     }
 
-    public RideId rideId() {
+    public void accept (String driverId) {
+        this.status.accept();
+        this.driverId = AccountId.with(driverId);
+    }
+
+        public RideId rideId() {
         return rideId;
     }
     public AccountId passengerId() {
@@ -87,7 +94,7 @@ public class Ride {
     }
 
     public String status() {
-        return status;
+        return status.getValue();
     }
 
     public LocalDateTime date() {
@@ -129,8 +136,8 @@ public class Ride {
         this.distance = distance;
     }
 
-    private void setStatus(String status) {
-        this.status = status;
+    public void setStatus(String status) {
+        this.status = RideStatusFactory.create(this, status);
     }
 
     private void setDate(LocalDateTime date) {

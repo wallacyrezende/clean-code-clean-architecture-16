@@ -1,5 +1,6 @@
 package cleancodecleanarchitecture16.course.infra.config;
 
+import cleancodecleanarchitecture16.course.application.usecase.AcceptRide;
 import cleancodecleanarchitecture16.course.application.usecase.GetAccount;
 import cleancodecleanarchitecture16.course.application.usecase.GetRide;
 import cleancodecleanarchitecture16.course.application.usecase.RequestRide;
@@ -43,5 +44,10 @@ public class UseCaseConfig {
     @Bean
     public GetRide  getRide() {
         return new GetRide(rideRepository, accountRepository);
+    }
+
+    @Bean
+    public AcceptRide acceptRide() {
+        return new AcceptRide(accountRepository, rideRepository);
     }
 }
