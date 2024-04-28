@@ -68,8 +68,8 @@ public class RideEntity {
 
     public Ride toRide() {
         final var driverId = this.driverId != null ? AccountId.with(this.driverId.toString()) : null;
-        return Ride.restore(RideId.with(rideId.toString()), AccountId.with(passengerId.toString()), driverId,
-                fromLat, fromLong, toLat, toLong, fare, distance, status, date);
+        return Ride.restore(RideId.with(rideId.toString()), AccountId.with(passengerId.toString()), driverId, fromLat,
+                fromLong, toLat, toLong, fare, distance, status, date);
     }
 
     @Override

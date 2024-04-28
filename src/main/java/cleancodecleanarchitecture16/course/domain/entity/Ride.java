@@ -16,10 +16,7 @@ public class Ride {
     private final RideId rideId;
     private AccountId passengerId;
     private AccountId driverId;
-    private Double fromLat;
-    private Double fromLong;
-    private Double toLat;
-    private Double toLong;
+    private Segment segment;
     private Double fare;
     private Double distance;
     private RideStatus status;
@@ -75,23 +72,23 @@ public class Ride {
     }
 
     public Segment segment() {
-        return new Segment(new Coord(fromLat, fromLong), new Coord(toLat, toLong));
+        return segment;
     }
 
     public Double fromLat() {
-        return fromLat;
+        return segment.from().latitude();
     }
 
     public Double fromLong() {
-        return fromLong;
+        return segment.from().longitude();
     }
 
     public Double toLat() {
-        return toLat;
+        return segment.to().latitude();
     }
 
     public Double toLong() {
-        return toLong;
+        return segment.to().longitude();
     }
 
     public Double fare() {
@@ -122,10 +119,7 @@ public class Ride {
     }
 
     private void setSegment(Segment segment) {
-        this.fromLat = segment.from().latitude();
-        this.fromLong = segment.from().longitude();
-        this.toLat = segment.to().latitude();
-        this.toLong = segment.to().longitude();
+        this.segment = segment;
     }
 
     private void setFare(Double fare) {
