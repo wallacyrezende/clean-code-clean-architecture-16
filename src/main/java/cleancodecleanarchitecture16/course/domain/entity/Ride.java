@@ -58,6 +58,11 @@ public class Ride {
         this.driverId = AccountId.with(driverId);
     }
 
+    public void start () {
+        this.status.start();
+    }
+
+
         public RideId rideId() {
         return rideId;
     }
