@@ -1,8 +1,6 @@
 package cleancodecleanarchitecture16.course.application.usecase;
 
 import cleancodecleanarchitecture16.course.IntegrationTest;
-import cleancodecleanarchitecture16.course.infra.gateway.MailerGateway;
-import cleancodecleanarchitecture16.course.infra.repository.AccountRepository;
 import cleancodecleanarchitecture16.course.model.exceptions.BusinessException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,10 +15,6 @@ class SignupTest extends IntegrationTest {
 
     @Autowired
     private Signup signup;
-    @Autowired
-    private AccountRepository accountRepository;
-    @Autowired
-    private MailerGateway mailerGateway;
 
     @Test
     @DisplayName("Should create an account to passenger")
