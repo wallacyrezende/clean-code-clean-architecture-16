@@ -9,14 +9,17 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static java.lang.Math.random;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class RequestRideTest extends IntegrationTest {
 
     @Autowired
+    private Signup signup;
+    @Autowired
     private RequestRide requestRide;
     @Autowired
-    private Signup signup;
+    private GetRide getRide;
     @Autowired
     private MailerGateway mailerGateway;
     @Autowired
@@ -39,9 +42,19 @@ class RequestRideTest extends IntegrationTest {
         final var toLat = -27.496887588317275;
         final var toLong = -48.522234807851476;
         final var inputRequestRide = new RequestRide.Input(passengerId, fromLat, fromLong, toLat, toLong);
-
-        final var output = requestRide.execute(inputRequestRide);
-
-        assertNotNull(output);
+        final var outputRequestRide = requestRide.execute(inputRequestRide);
+        assertNotNull(outputRequestRide);
+        final var inputGetRide = new GetRide.Input(outputRequestRide.rideId());
+        final var outputGetRide = getRide.execute(inputGetRide).get();
+        assertNotNull(outputGetRide);
+        assertEquals(outputGetRide.rideId(), outputRequestRide.rideId());
+        assertEquals(outputGetRide.status(), "requested");
+        assertEquals(outputGetRide.passengerId(), outputSignup.accountId());
+        assertEquals(outputGetRide.fromLat(), inputRequestRide.fromLat());
+        assertEquals(outputGetRide.fromLong(), inputRequestRide.fromLong());
+        assertEquals(outputGetRide.toLat(), inputRequestRide.toLat());
+        assertEquals(outputGetRide.toLong(), inputRequestRide.toLong());
+        assertEquals(outputGetRide.passengerName(), inputSignup.name());
+        assertEquals(outputGetRide.passengerEmail(), inputSignup.email());
     }
 }
