@@ -1,6 +1,7 @@
 package cleancodecleanarchitecture16.course.infra.repository.impl;
 
 import cleancodecleanarchitecture16.course.domain.entity.Ride;
+import cleancodecleanarchitecture16.course.domain.vo.AccountId;
 import cleancodecleanarchitecture16.course.domain.vo.RideId;
 import cleancodecleanarchitecture16.course.infra.database.entities.RideEntity;
 import cleancodecleanarchitecture16.course.infra.database.repositories.RideJpaRepository;
@@ -33,5 +34,11 @@ public class RideRepositoryImpl implements RideRepository {
         Objects.requireNonNull(rideId, "RideId cannot be null");
         return rideJpaRepository.findById(UUID.fromString(rideId.value()))
                 .map(RideEntity::toRide);
+    }
+
+    @Override
+    public Boolean hasActiveRideByPassengerId(AccountId passengerId) {
+        Objects.requireNonNull(passengerId, "PassengerId cannot be null");
+        return rideJpaRepository.findActiveRideByPassengerId(UUID.fromString(passengerId.value())).isPresent();
     }
 }
