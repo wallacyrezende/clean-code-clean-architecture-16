@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import static java.lang.Math.random;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -110,10 +111,10 @@ class AccountControllerTest extends IntegrationTest {
         assertEquals(accountDTO.getIsPassenger(), getAccountResponse.isPassenger());
     }
 
-    private AccountDTO buildAccountPassengerDTO() {
+    public static AccountDTO buildAccountPassengerDTO() {
         return AccountDTO.builder()
                 .name("John Doe")
-                .email("exemplo@email.com")
+                .email("exemplo" + random() + "@email.com")
                 .cpf("188.058.750-58")
                 .carPlate(null)
                 .isPassenger(true)
