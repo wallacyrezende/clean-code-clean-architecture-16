@@ -59,17 +59,23 @@ public class RideEntity {
     @Column
     private LocalDateTime date;
 
+    @Column
+    private Double lastLat;
+
+    @Column
+    private Double lastLong;
+
     public static RideEntity of(final Ride ride) {
         final var driverId = ride.driverId() != null ? UUID.fromString(ride.driverId().value()) : null;
         return new RideEntity(UUID.fromString(ride.rideId().value()), UUID.fromString(ride.passengerId().value()),
                 driverId, ride.fromLat(), ride.fromLong(), ride.toLat(), ride.toLong(), ride.fare(), ride.distance(),
-                ride.status(), ride.date());
+                ride.status(), ride.date(), ride.lastPosition().latitude(), ride.lastPosition().longitude());
     }
 
     public Ride toRide() {
         final var driverId = this.driverId != null ? AccountId.with(this.driverId.toString()) : null;
         return Ride.restore(RideId.with(rideId.toString()), AccountId.with(passengerId.toString()), driverId, fromLat,
-                fromLong, toLat, toLong, fare, distance, status, date);
+                fromLong, toLat, toLong, fare, distance, status, date, lastLat, lastLong);
     }
 
     @Override

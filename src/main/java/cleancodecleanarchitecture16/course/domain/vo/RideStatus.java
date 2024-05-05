@@ -14,6 +14,7 @@ public abstract class RideStatus {
     public abstract void request();
     public abstract void accept();
     public abstract void start();
+    public abstract void finish();
 
     public String getValue() {
         return value;
@@ -40,6 +41,11 @@ class RequestedStatus extends RideStatus {
     public void start() {
         throw new BusinessException("Invalid status");
     }
+
+    @Override
+    public void finish() {
+        throw new BusinessException("Invalid status");
+    }
 }
 
 class AcceptedStatus extends RideStatus {
@@ -62,6 +68,11 @@ class AcceptedStatus extends RideStatus {
     public void start() {
         ride.setStatus(new InProgressStatus(ride).getValue());
     }
+
+    @Override
+    public void finish() {
+        throw new BusinessException("Invalid status");
+    }
 }
 
 class InProgressStatus extends RideStatus {
@@ -82,6 +93,38 @@ class InProgressStatus extends RideStatus {
 
     @Override
     public void start() {
+        throw new BusinessException("Invalid status");
+    }
+
+    @Override
+    public void finish() {
+        this.ride.setStatus(new CompletedStatus(ride).getValue());
+    }
+}
+
+class CompletedStatus extends RideStatus {
+    public CompletedStatus(Ride ride) {
+        super(ride);
+        this.value = "completed";
+    }
+
+    @Override
+    public void request() {
+        throw new BusinessException("Invalid status");
+    }
+
+    @Override
+    public void accept() {
+        throw new BusinessException("Invalid status");
+    }
+
+    @Override
+    public void start() {
+        throw new BusinessException("Invalid status");
+    }
+
+    @Override
+    public void finish() {
         throw new BusinessException("Invalid status");
     }
 }

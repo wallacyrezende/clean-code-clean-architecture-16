@@ -63,6 +63,6 @@ public class UseCaseConfig {
 
     @Bean
     public UpdatePosition updatePosition() {
-        return new UpdatePosition(positionRepository);
+        return new UpdatePosition(positionRepository, rideRepository);
     }
 }

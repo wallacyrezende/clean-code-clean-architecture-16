@@ -4,6 +4,8 @@ import cleancodecleanarchitecture16.course.IntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDateTime;
+
 import static java.lang.Math.random;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -48,9 +50,9 @@ class UpdatePositionTest extends IntegrationTest {
         acceptRide.execute(inputAcceptRide);
         final var inputStartRide = new StartRide.Input(outputRequestRide.rideId());
         startRide.execute(inputStartRide);
-        final var inputUpdatePosition1 = new UpdatePosition.Input(outputRequestRide.rideId(), -27.584905257808835, -48.545022195325124);
+        final var inputUpdatePosition1 = new UpdatePosition.Input(outputRequestRide.rideId(), -27.584905257808835, -48.545022195325124, LocalDateTime.now());
         updatePosition.execute(inputUpdatePosition1);
-        final var inputUpdatePosition2 = new UpdatePosition.Input(outputRequestRide.rideId(), -27.496887588317275, -48.522234807851476);
+        final var inputUpdatePosition2 = new UpdatePosition.Input(outputRequestRide.rideId(), -27.496887588317275, -48.522234807851476, LocalDateTime.now());
         updatePosition.execute(inputUpdatePosition2);
         final var inputGetRide = new GetRide.Input(outputRequestRide.rideId());
         final var outputGetRide = getRide.execute(inputGetRide);
