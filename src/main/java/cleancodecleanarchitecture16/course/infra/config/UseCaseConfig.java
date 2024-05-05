@@ -1,6 +1,7 @@
 package cleancodecleanarchitecture16.course.infra.config;
 
 import cleancodecleanarchitecture16.course.application.usecase.AcceptRide;
+import cleancodecleanarchitecture16.course.application.usecase.FinishRide;
 import cleancodecleanarchitecture16.course.application.usecase.GetAccount;
 import cleancodecleanarchitecture16.course.application.usecase.GetRide;
 import cleancodecleanarchitecture16.course.application.usecase.RequestRide;
@@ -8,6 +9,7 @@ import cleancodecleanarchitecture16.course.application.usecase.Signup;
 import cleancodecleanarchitecture16.course.application.usecase.StartRide;
 import cleancodecleanarchitecture16.course.application.usecase.UpdatePosition;
 import cleancodecleanarchitecture16.course.infra.gateway.MailerGateway;
+import cleancodecleanarchitecture16.course.infra.gateway.PaymentGateway;
 import cleancodecleanarchitecture16.course.infra.repository.AccountRepository;
 import cleancodecleanarchitecture16.course.infra.repository.PositionRepository;
 import cleancodecleanarchitecture16.course.infra.repository.RideRepository;
@@ -23,12 +25,14 @@ public class UseCaseConfig {
     private final RideRepository rideRepository;
     private final MailerGateway mailerGateway;
     private final PositionRepository positionRepository;
+    private final PaymentGateway paymentGateway;
 
-    public UseCaseConfig(AccountRepository accountRepository, RideRepository rideRepository, MailerGateway mailerGateway, PositionRepository positionRepository) {
+    public UseCaseConfig(AccountRepository accountRepository, RideRepository rideRepository, MailerGateway mailerGateway, PositionRepository positionRepository, PaymentGateway paymentGateway) {
         this.accountRepository = requireNonNull(accountRepository);
         this.rideRepository = requireNonNull(rideRepository);
         this.mailerGateway = requireNonNull(mailerGateway);
         this.positionRepository = requireNonNull(positionRepository);
+        this.paymentGateway = requireNonNull(paymentGateway);
     }
 
     @Bean
@@ -64,5 +68,10 @@ public class UseCaseConfig {
     @Bean
     public UpdatePosition updatePosition() {
         return new UpdatePosition(positionRepository, rideRepository);
+    }
+
+    @Bean
+    public FinishRide finishRide() {
+        return new FinishRide(rideRepository, paymentGateway);
     }
 }

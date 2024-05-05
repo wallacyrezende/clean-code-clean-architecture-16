@@ -33,13 +33,14 @@ public class GetRide extends UseCase<GetRide.Input, Optional<GetRide.Output>> {
                     }
                     return new Output(ride.rideId().value(), ride.passengerId().value(), ride.fromLat(), ride.fromLong(),
                             ride.toLat(), ride.toLong(), ride.status(), passenger.name().value(), passenger.email().value(),
-                            driverName, driverEmail);
+                            driverName, driverEmail, ride.fare());
                 });
     }
 
     public record Input(String rideId) {}
 
     public record Output(String rideId, String passengerId, Double fromLat, Double fromLong, Double toLat, Double toLong,
-                         String status, String passengerName, String passengerEmail, String driverName, String driverEmail) {
+                         String status, String passengerName, String passengerEmail, String driverName, String driverEmail,
+                         Double fare) {
     }
 }

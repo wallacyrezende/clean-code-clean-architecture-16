@@ -10,7 +10,7 @@ import static java.lang.Math.random;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class UpdatePositionTest extends IntegrationTest {
+class FinishRideTest extends IntegrationTest {
 
     @Autowired
     private Signup signup;
@@ -24,9 +24,11 @@ class UpdatePositionTest extends IntegrationTest {
     private UpdatePosition updatePosition;
     @Autowired
     private GetRide getRide;
+    @Autowired
+    private FinishRide finishRide;
 
     @Test
-    void shouldUpdatePositionOfARide() {
+    void shouldFinishARide() {
         final var name = "John Doe";
         final var email = "email" + random() + "@email.com";
         final var cpf = "188.058.750-58";
@@ -50,13 +52,19 @@ class UpdatePositionTest extends IntegrationTest {
         acceptRide.execute(inputAcceptRide);
         final var inputStartRide = new StartRide.Input(outputRequestRide.rideId());
         startRide.execute(inputStartRide);
-        final var inputUpdatePosition1 = new UpdatePosition.Input(outputRequestRide.rideId(), -27.584905257808835, -48.545022195325124, LocalDateTime.now());
+        final var inputUpdatePosition1 = new UpdatePosition.Input(outputRequestRide.rideId(), -27.584905257808835, -48.545022195325124, LocalDateTime.of(2023, 3, 1, 21, 30, 0));
         updatePosition.execute(inputUpdatePosition1);
-        final var inputUpdatePosition2 = new UpdatePosition.Input(outputRequestRide.rideId(), -27.496887588317275, -48.522234807851476, LocalDateTime.now());
+        final var inputUpdatePosition2 = new UpdatePosition.Input(outputRequestRide.rideId(), -27.496887588317275, -48.522234807851476, LocalDateTime.of(2023, 3, 1, 22, 30, 0));
         updatePosition.execute(inputUpdatePosition2);
+        final var inputUpdatePosition3 = new UpdatePosition.Input(outputRequestRide.rideId(), -27.584905257808835, -48.545022195325124, LocalDateTime.of(2023, 3, 1, 23, 30, 0));
+        updatePosition.execute(inputUpdatePosition3);
+        final var inputFinishRide = new FinishRide.Input(outputRequestRide.rideId());
+        finishRide.execute(inputFinishRide);
         final var inputGetRide = new GetRide.Input(outputRequestRide.rideId());
         final var outputGetRide = getRide.execute(inputGetRide);
         assertTrue(outputGetRide.isPresent());
         assertEquals(outputRequestRide.rideId(), outputGetRide.get().rideId());
+        assertEquals(63, outputGetRide.get().fare());
+        assertEquals("completed", outputGetRide.get().status());
     }
 }
