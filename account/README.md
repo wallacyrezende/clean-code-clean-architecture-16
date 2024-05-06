@@ -1,7 +1,3 @@
-# API de Cadastro de Usuários - Aplicativo Similar ao Uber
-
-Bem-vindo à API de cadastro de usuários para um aplicativo semelhante ao Uber. Esta API permite o cadastro de usuários que serão utilizados na plataforma.
-
 ## Documentação Swagger
 
 A documentação completa da API pode ser encontrada no [Swagger UI](http://localhost:8080/swagger-ui.html). Acesse para explorar os endpoints e interagir com a API.
