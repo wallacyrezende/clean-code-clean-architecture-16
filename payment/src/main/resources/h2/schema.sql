@@ -11,7 +11,7 @@ create table if not exists cccat16.account (
 );
 
 create table if not exists cccat16.ride (
-    ride_id uuid,
+    ride_id uuid primary key,
     passenger_id uuid,
     driver_id uuid,
     status text,
@@ -27,9 +27,17 @@ create table if not exists cccat16.ride (
 );
 
 create table if not exists cccat16.position (
-    position_id uuid,
+    position_id uuid primary key,
     ride_id uuid,
     latitude numeric,
     longitude numeric,
     date timestamp
+);
+
+create table if not exists cccat16.transaction (
+    transaction_id uuid primary key,
+    ride_id uuid,
+    amount numeric,
+    date timestamp,
+    status text
 );

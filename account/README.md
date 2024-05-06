@@ -23,7 +23,7 @@ A aplicação estará disponível em http://localhost:8080.
 ## Endpoints Principais
 POST api/account/signup: cadastrar uma nova conta.
 
-POST api/ride/request-ride: cadastrar uma nova corrida.
+POST api/ride/request: cadastrar uma nova corrida.
 
 
 ## Executando Testes

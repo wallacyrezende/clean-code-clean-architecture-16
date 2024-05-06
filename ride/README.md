@@ -1,6 +1,4 @@
-# API de Cadastro de Usuários - Aplicativo Similar ao Uber
-
-Bem-vindo à API de cadastro de usuários para um aplicativo semelhante ao Uber. Esta API permite o cadastro de usuários que serão utilizados na plataforma.
+# API Para lidar com o cadastro de usuários e as corridas
 
 ## Documentação Swagger
 
@@ -23,7 +21,7 @@ A aplicação estará disponível em http://localhost:8080.
 ## Endpoints Principais
 POST api/account/signup: cadastrar uma nova conta.
 
-POST api/ride/request-ride: cadastrar uma nova corrida.
+POST api/ride/request: cadastrar uma nova corrida.
 
 
 ## Executando Testes

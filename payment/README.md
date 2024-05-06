@@ -1,10 +1,8 @@
-# API de Cadastro de Usuários - Aplicativo Similar ao Uber
-
-Bem-vindo à API de cadastro de usuários para um aplicativo semelhante ao Uber. Esta API permite o cadastro de usuários que serão utilizados na plataforma.
+# API para lidar com os pagamentos
 
 ## Documentação Swagger
 
-A documentação completa da API pode ser encontrada no [Swagger UI](http://localhost:8080/swagger-ui.html). Acesse para explorar os endpoints e interagir com a API.
+A documentação completa da API pode ser encontrada no [Swagger UI](http://localhost:8081/swagger-ui.html). Acesse para explorar os endpoints e interagir com a API.
 
 ## Banco de Dados
 
@@ -18,12 +16,10 @@ bash
 mvn clean install
 mvn spring-boot:run
 
-A aplicação estará disponível em http://localhost:8080.
+A aplicação estará disponível em http://localhost:8081.
 
 ## Endpoints Principais
-POST api/account/signup: cadastrar uma nova conta.
-
-POST api/ride/request-ride: cadastrar uma nova corrida.
+POST api/payment/process: processa um pagamento.
 
 
 ## Executando Testes

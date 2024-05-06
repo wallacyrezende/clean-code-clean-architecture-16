@@ -30,7 +30,7 @@ class RideControllerTest extends IntegrationTest {
     private static final String API = "/api/ride";
     private static final String API_ACCOUNT = "/api/account";
     private static final MediaType JSON = MediaType.APPLICATION_JSON;
-    public static final String REQUEST_RIDE_ENDPOINT = "/request-ride";
+    public static final String REQUEST_RIDE_ENDPOINT = "/request";
     public static final String GET_RIDE_ENDPOINT = "/{rideId}";
     @Autowired
     MockMvc mvc;

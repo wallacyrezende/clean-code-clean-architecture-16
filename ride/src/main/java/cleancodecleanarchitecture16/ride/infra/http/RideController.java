@@ -1,6 +1,7 @@
 package cleancodecleanarchitecture16.ride.infra.http;
 
 import cleancodecleanarchitecture16.ride.application.usecase.AcceptRide;
+import cleancodecleanarchitecture16.ride.application.usecase.FinishRide;
 import cleancodecleanarchitecture16.ride.application.usecase.GetRide;
 import cleancodecleanarchitecture16.ride.application.usecase.RequestRide;
 import cleancodecleanarchitecture16.ride.application.usecase.StartRide;
@@ -31,10 +32,11 @@ public class RideController {
     private final GetRide getRide;
     private final AcceptRide acceptRide;
     private final StartRide startRide;
+    private final FinishRide finishRide;
 
     @Operation(summary = "Request a ride")
-    @PostMapping("/request-ride")
-    public ResponseEntity<?> requestRide(@RequestBody RequestRideDTO requestRideDTO) {
+    @PostMapping("/request")
+    public ResponseEntity<?> request(@RequestBody RequestRideDTO requestRideDTO) {
         final var input = new RequestRide.Input(requestRideDTO.getPassengerId(), requestRideDTO.getFromLat(),
                 requestRideDTO.getFromLong(), requestRideDTO.getToLat(), requestRideDTO.getToLong());
         final var output = requestRide.execute(input);
@@ -42,17 +44,24 @@ public class RideController {
     }
 
     @Operation(summary = "Accept a ride")
-    @PostMapping("/accept-ride")
+    @PostMapping("/accept")
     @ResponseStatus(HttpStatus.OK)
-    public void acceptRide(@RequestParam String rideId, @RequestParam String driverId) {
+    public void accept(@RequestParam String rideId, @RequestParam String driverId) {
         acceptRide.execute(new AcceptRide.Input(rideId, driverId));
     }
 
     @Operation(summary = "Start a ride")
-    @PostMapping("/start-ride/{rideId}")
+    @PostMapping("/start/{rideId}")
     @ResponseStatus(HttpStatus.OK)
-    public void startRide(@PathVariable String rideId) {
+    public void start(@PathVariable String rideId) {
         startRide.execute(new StartRide.Input(rideId));
+    }
+
+    @Operation(summary = "Finish a ride")
+    @PostMapping("/finish/{rideId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void finish(@PathVariable String rideId) {
+        finishRide.execute(new FinishRide.Input(rideId));
     }
 
     @Operation(summary = "Get ride by ride id")
