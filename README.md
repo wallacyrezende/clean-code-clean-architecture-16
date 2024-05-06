@@ -1,34 +1,20 @@
-# API de Cadastro de Usuários - Aplicativo Similar ao Uber
+# Bem-vindo ao 88 Ride!
 
-Bem-vindo à API de cadastro de usuários para um aplicativo semelhante ao Uber. Esta API permite o cadastro de usuários que serão utilizados na plataforma.
+Um aplicativo inspirado no conceito do Uber, projetado para possibilitar que os usuários solicitem motoristas para viagens particulares.
 
-## Documentação Swagger
+Nosso aplicativo é como ter um assistente pessoal para suas viagens. Você pode criar sua conta facilmente e escolher se prefere ser passageiro ou motorista. Quando precisar de uma viagem, é só pedir, e cuidaremos do resto. Os motoristas aceitam sua solicitação, você acompanha a viagem e nós cuidamos do pagamento. Se precisar de informações, estamos aqui para ajudar. Com nosso aplicativo, suas viagens se tornam mais simples, humanizadas e seguras.
 
-A documentação completa da API pode ser encontrada no [Swagger UI](http://localhost:8080/swagger-ui.html). Acesse para explorar os endpoints e interagir com a API.
+## Microsserviços
 
-## Banco de Dados
+1. **Account**:
+   - [Documentação do Microsserviço Account](/account)
 
-A aplicação utiliza o banco de dados H2 em memória para armazenar os dados dos usuários. O schema do banco de dados é o `cccat16`. Você pode encontrar a estrutura do banco no arquivo `resources/h2/schema.sql`.
+2. **Ride**:
+   - [Documentação do Microsserviço Ride](/ride)
 
-## Executando a Aplicação
+3. **Payment**:
+   - [Documentação do Microsserviço Payment](/payment)
 
-Para executar a aplicação, certifique-se de ter o JDK e o Maven instalados em seu ambiente. Em seguida, execute os seguintes comandos:
+Este repositório foi organizado de forma a permitir o desenvolvimento, teste e implantação independentes de cada microsserviço, mantendo-os todos dentro de um único repositório para facilitar a colaboração e o compartilhamento de recursos comuns.
 
-bash
-mvn clean install
-mvn spring-boot:run
-
-A aplicação estará disponível em http://localhost:8080.
-
-## Endpoints Principais
-POST api/account/signup: Endpoint para cadastrar uma nova conta.
-POST api/ride/request-ride: Endpoint para cadastrar uma nova corrida.
-
-## Executando Testes
-Para executar os testes da aplicação, utilize o seguinte comando:
-
-mvn test
-
-Isso executará todos os testes unitários e de integração da API.
-
-Sinta-se à vontade para explorar e utilizar esta API para o seu proósito. Essa API ainda está em desenvolvimento, por esse motivo muitas coisas podem mudar. Se precisar de mais informações ou tiver alguma dúvida, pode entrar em contato comigo.
+Sinta-se à vontade para explorar cada microsserviço e sua documentação para um melhor entendimento de cada parte do sistema.
