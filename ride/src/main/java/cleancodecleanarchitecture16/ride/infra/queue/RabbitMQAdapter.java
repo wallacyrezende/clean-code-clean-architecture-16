@@ -23,6 +23,7 @@ public class RabbitMQAdapter implements Queue {
 
     @Override
     public void publish(String exchangeName, Object data) {
+        connect();
         try (Connection connection = connectionFactory.newConnection();
              Channel channel = connection.createChannel()) {
             channel.exchangeDeclare(exchangeName, "direct", true);
@@ -34,6 +35,7 @@ public class RabbitMQAdapter implements Queue {
 
     @Override
     public void consume(String queueName, EventHandlerFunction<Object> callback) {
+        connect();
         try (Connection connection = connectionFactory.newConnection();
              Channel channel = connection.createChannel()) {
             channel.queueBind(queueName, "rideCompleted", "");

@@ -1,10 +1,11 @@
 package cleancodecleanarchitecture16.ride.infra.http;
 
 import cleancodecleanarchitecture16.ride.IntegrationTest;
+import cleancodecleanarchitecture16.ride.application.gateway.AccountGateway;
 import cleancodecleanarchitecture16.ride.application.usecase.GetRide;
 import cleancodecleanarchitecture16.ride.application.usecase.RequestRide;
-import cleancodecleanarchitecture16.ride.application.usecase.Signup;
 import cleancodecleanarchitecture16.ride.infra.database.repositories.RideJpaRepository;
+import cleancodecleanarchitecture16.ride.infra.dto.AccountDTO;
 import cleancodecleanarchitecture16.ride.infra.dto.RequestRideDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,6 +21,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.UUID;
 
+import static java.lang.Math.random;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -28,7 +30,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 class RideControllerTest extends IntegrationTest {
 
     private static final String API = "/api/ride";
-    private static final String API_ACCOUNT = "/api/account";
     private static final MediaType JSON = MediaType.APPLICATION_JSON;
     public static final String REQUEST_RIDE_ENDPOINT = "/request";
     public static final String GET_RIDE_ENDPOINT = "/{rideId}";
@@ -38,6 +39,8 @@ class RideControllerTest extends IntegrationTest {
     private ObjectMapper mapper;
     @Autowired
     private RideJpaRepository rideJpaRepository;
+    @Autowired
+    private AccountGateway accountGateway;
 
     @BeforeEach
     void setUp() {
@@ -47,17 +50,8 @@ class RideControllerTest extends IntegrationTest {
     @Test
     @DisplayName("Should request a ride and generate ride id")
     void shouldRequestARideAndGenerateRideId() throws Exception {
-        var accountDTO = AccountControllerTest.buildAccountPassengerDTO();
-        MockHttpServletRequestBuilder requestSignup = MockMvcRequestBuilders
-                .post(API_ACCOUNT.concat(AccountControllerTest.SIGNUP_ENDPOINT))
-                .contentType(JSON)
-                .content(mapper.writeValueAsString(accountDTO));
-        final var signupResult = mvc
-                .perform(requestSignup)
-                .andReturn().getResponse().getContentAsByteArray();
-
+        final var passengerId = accountGateway.signup(buildAccountPassengerDTO()).stream().iterator().next().getAccountId().toString();
         var requestRideDTO = buildRequestRideDTOWithoutPassengerId();
-        var passengerId = mapper.readValue(signupResult, Signup.Output.class).accountId();
         requestRideDTO.setPassengerId(passengerId);
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .post(API.concat(REQUEST_RIDE_ENDPOINT))
@@ -91,17 +85,9 @@ class RideControllerTest extends IntegrationTest {
     @Test
     @DisplayName("Should find a ride by ride id")
     void shouldFindARideByRideId() throws Exception {
-        var accountDTO = AccountControllerTest.buildAccountPassengerDTO();
-        MockHttpServletRequestBuilder requestSignup = MockMvcRequestBuilders
-                .post(API_ACCOUNT.concat(AccountControllerTest.SIGNUP_ENDPOINT))
-                .contentType(JSON)
-                .content(mapper.writeValueAsString(accountDTO));
-        final var signupResult = mvc
-                .perform(requestSignup)
-                .andReturn().getResponse().getContentAsByteArray();
-
-        var requestRideDTO = buildRequestRideDTOWithoutPassengerId();
-        var passengerId = mapper.readValue(signupResult, Signup.Output.class).accountId();
+        final var accountDTO = buildAccountPassengerDTO();
+        final var passengerId = accountGateway.signup(accountDTO).stream().iterator().next().getAccountId().toString();
+        final var requestRideDTO = buildRequestRideDTOWithoutPassengerId();
         requestRideDTO.setPassengerId(passengerId);
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .post(API.concat(REQUEST_RIDE_ENDPOINT))
@@ -136,5 +122,16 @@ class RideControllerTest extends IntegrationTest {
                 .fromLong(0d)
                 .build();
 
+    }
+
+    private static AccountDTO buildAccountPassengerDTO() {
+        return AccountDTO.builder()
+                .name("John Doe")
+                .email("exemplo" + random() + "@email.com")
+                .cpf("188.058.750-58")
+                .carPlate(null)
+                .isPassenger(true)
+                .isDriver(null)
+                .build();
     }
 }

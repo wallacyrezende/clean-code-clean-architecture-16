@@ -3,7 +3,6 @@ package cleancodecleanarchitecture16.ride.domain.entity;
 import cleancodecleanarchitecture16.ride.application.exceptions.BusinessException;
 import cleancodecleanarchitecture16.ride.domain.event.RideCompleted;
 import cleancodecleanarchitecture16.ride.domain.service.FareCalculatorFactory;
-import cleancodecleanarchitecture16.ride.domain.vo.AccountId;
 import cleancodecleanarchitecture16.ride.domain.vo.Coord;
 import cleancodecleanarchitecture16.ride.domain.vo.RideId;
 import cleancodecleanarchitecture16.ride.domain.vo.RideStatus;
@@ -15,13 +14,15 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.UUID;
+
 // Aggregate, Aggregate Root <AR>, Entity
 public class Ride extends Observable implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
     private final RideId rideId;
-    private AccountId passengerId;
-    private AccountId driverId;
+    private UUID passengerId;
+    private UUID driverId;
     private Segment segment;
     private Double fare;
     private Double distance;
@@ -29,7 +30,7 @@ public class Ride extends Observable implements Serializable {
     private LocalDateTime date;
     private Coord lastPosition;
 
-    private Ride(final RideId rideId, final AccountId passengerId, final AccountId driverId, final Segment segment, final Double fare,
+    private Ride(final RideId rideId, final UUID passengerId, final UUID driverId, final Segment segment, final Double fare,
                  final Double distance, String status, final LocalDateTime date, final Coord lastPosition) {
         super();
         if (rideId == null)
@@ -45,7 +46,7 @@ public class Ride extends Observable implements Serializable {
         this.setLastPosition(lastPosition);
     }
 
-    public static Ride create(final AccountId passengerId, final Double fromLat, final Double fromLong, final Double toLat,
+    public static Ride create(final UUID passengerId, final Double fromLat, final Double fromLong, final Double toLat,
                               final Double toLong) {
         final var status = "requested";
         final var date = LocalDateTime.now();
@@ -56,16 +57,16 @@ public class Ride extends Observable implements Serializable {
                 fare, distance, status, date, lastPosition);
     }
 
-    public static Ride restore(final RideId rideId, final AccountId passengerId, final AccountId driverId, final Double fromLat,
+    public static Ride restore(final RideId rideId, final UUID passengerId, final UUID driverId, final Double fromLat,
                                final Double fromLong, final Double toLat, final Double toLong, final Double fare, final Double distance,
                                final String status, final LocalDateTime date, final Double lastLat, final Double lastLong) {
         return new Ride(rideId, passengerId, driverId, new Segment(new Coord(fromLat, fromLong), new Coord(toLat, toLong)),
                 fare, distance, status, date, new Coord(lastLat, lastLong));
     }
 
-    public void accept (String driverId) {
+    public void accept (UUID driverId) {
         this.status.accept();
-        this.driverId = AccountId.with(driverId);
+        this.driverId = driverId;
     }
 
     public void start () {
@@ -84,14 +85,16 @@ public class Ride extends Observable implements Serializable {
         this.fare += FareCalculatorFactory.create(date).calculate(distance);
         this.lastPosition = newPosition;
     }
+
     public RideId rideId() {
         return rideId;
     }
-    public AccountId passengerId() {
+
+    public UUID passengerId() {
         return passengerId;
     }
 
-    public AccountId driverId() {
+    public UUID driverId() {
         return driverId;
     }
 
@@ -135,14 +138,14 @@ public class Ride extends Observable implements Serializable {
         return lastPosition;
     }
 
-    private void setPassengerId(final AccountId passengerId) {
+    private void setPassengerId(final UUID passengerId) {
         if (passengerId == null) {
             throw new BusinessException("Invalid passengerId for Ride");
         }
         this.passengerId = passengerId;
     }
 
-    private void setDriverId(AccountId driverId) {
+    private void setDriverId(UUID driverId) {
         this.driverId = driverId;
     }
 

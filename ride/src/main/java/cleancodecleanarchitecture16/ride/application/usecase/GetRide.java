@@ -1,9 +1,8 @@
 package cleancodecleanarchitecture16.ride.application.usecase;
 
-import cleancodecleanarchitecture16.ride.domain.entity.Account;
-import cleancodecleanarchitecture16.ride.domain.vo.AccountId;
+import cleancodecleanarchitecture16.ride.application.gateway.AccountGateway;
 import cleancodecleanarchitecture16.ride.domain.vo.RideId;
-import cleancodecleanarchitecture16.ride.infra.repository.AccountRepository;
+import cleancodecleanarchitecture16.ride.infra.dto.AccountDTO;
 import cleancodecleanarchitecture16.ride.infra.repository.RideRepository;
 
 import java.util.Optional;
@@ -11,30 +10,30 @@ import java.util.Optional;
 public class GetRide extends UseCase<GetRide.Input, Optional<GetRide.Output>> {
 
     private final RideRepository  rideRepository;
-    private final AccountRepository accountRepository;
+    private final AccountGateway accountGateway;
 
-    public GetRide(RideRepository rideRepository, AccountRepository accountRepository) {
+    public GetRide(RideRepository rideRepository, AccountGateway accountGateway) {
         this.rideRepository = rideRepository;
-        this.accountRepository = accountRepository;
+        this.accountGateway = accountGateway;
     }
 
     @Override
     public Optional<Output> execute(final Input input) {
         return rideRepository.findRideById(RideId.with(input.rideId))
-                .map(ride -> {
-                    var passenger = accountRepository.findById(ride.passengerId()).get();
-                    Account driver;
-                    String driverName = null;
-                    String driverEmail = null;
-                    if (ride.driverId() != null) {
-                        driver = accountRepository.findById(AccountId.with(ride.driverId().value())).get();
-                        driverName = driver.name().value();
-                        driverEmail = driver.email().value();
-                    }
-                    return new Output(ride.rideId().value(), ride.passengerId().value(), ride.fromLat(), ride.fromLong(),
-                            ride.toLat(), ride.toLong(), ride.status(), passenger.name().value(), passenger.email().value(),
-                            driverName, driverEmail, ride.fare());
-                });
+                .map(ride -> accountGateway.getAccountById(ride.passengerId())
+                        .map(passenger -> {
+                            var driver = new AccountDTO();
+                             if (ride.driverId() != null) {
+                                 accountGateway.getAccountById(ride.driverId()).ifPresent(driverFound -> {
+                                     driver.setName(driverFound.getName());
+                                     driver.setEmail(driverFound.getEmail());
+                                 });
+                             }
+                             return new Output(ride.rideId().value(), ride.passengerId().toString(), ride.fromLat(), ride.fromLong(),
+                                     ride.toLat(), ride.toLong(), ride.status(), passenger.getName(), passenger.getEmail(), driver.getName(),
+                                     driver.getEmail(), ride.fare());
+                         })
+                        .get());
     }
 
     public record Input(String rideId) {}

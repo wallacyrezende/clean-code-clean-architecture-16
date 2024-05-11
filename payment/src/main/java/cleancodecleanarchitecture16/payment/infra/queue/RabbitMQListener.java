@@ -7,14 +7,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
 public class RabbitMQListener {
 
-    private final MessageConverter jsonMessageConverter;
     private final ProcessPayment processPayment;
 
     @RabbitListener(queues = "#{queue.name}", ackMode = "AUTO")

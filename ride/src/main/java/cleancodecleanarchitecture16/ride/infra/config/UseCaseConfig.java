@@ -1,18 +1,15 @@
 package cleancodecleanarchitecture16.ride.infra.config;
 
+import cleancodecleanarchitecture16.ride.application.gateway.AccountGateway;
+import cleancodecleanarchitecture16.ride.application.gateway.PaymentGateway;
 import cleancodecleanarchitecture16.ride.application.usecase.AcceptRide;
 import cleancodecleanarchitecture16.ride.application.usecase.FinishRide;
-import cleancodecleanarchitecture16.ride.application.usecase.GetAccount;
 import cleancodecleanarchitecture16.ride.application.usecase.GetRide;
 import cleancodecleanarchitecture16.ride.application.usecase.RequestRide;
-import cleancodecleanarchitecture16.ride.application.usecase.Signup;
 import cleancodecleanarchitecture16.ride.application.usecase.StartRide;
 import cleancodecleanarchitecture16.ride.application.usecase.UpdatePosition;
-import cleancodecleanarchitecture16.ride.infra.gateway.MailerGateway;
-import cleancodecleanarchitecture16.ride.infra.gateway.PaymentGateway;
 import cleancodecleanarchitecture16.ride.infra.mediator.Mediator;
 import cleancodecleanarchitecture16.ride.infra.queue.Queue;
-import cleancodecleanarchitecture16.ride.infra.repository.AccountRepository;
 import cleancodecleanarchitecture16.ride.infra.repository.PositionRepository;
 import cleancodecleanarchitecture16.ride.infra.repository.RideRepository;
 import org.springframework.context.annotation.Bean;
@@ -23,19 +20,17 @@ import static java.util.Objects.requireNonNull;
 @Configuration
 public class UseCaseConfig {
 
-    private final AccountRepository accountRepository;
+    private final AccountGateway accountGateway;
     private final RideRepository rideRepository;
-    private final MailerGateway mailerGateway;
     private final PositionRepository positionRepository;
     private final PaymentGateway paymentGateway;
     private final Mediator mediator;
     private final Queue queue;
 
-    public UseCaseConfig(AccountRepository accountRepository, RideRepository rideRepository, MailerGateway mailerGateway,
-                         PositionRepository positionRepository, PaymentGateway paymentGateway, Mediator mediator, Queue queue) {
-        this.accountRepository = requireNonNull(accountRepository);
+    public UseCaseConfig(AccountGateway accountGateway, RideRepository rideRepository, PositionRepository positionRepository,
+                         PaymentGateway paymentGateway, Mediator mediator, Queue queue) {
+        this.accountGateway = requireNonNull(accountGateway);
         this.rideRepository = requireNonNull(rideRepository);
-        this.mailerGateway = requireNonNull(mailerGateway);
         this.positionRepository = requireNonNull(positionRepository);
         this.paymentGateway = requireNonNull(paymentGateway);
         this.mediator = requireNonNull(mediator);
@@ -43,28 +38,18 @@ public class UseCaseConfig {
     }
 
     @Bean
-    public Signup signup() {
-        return new Signup(accountRepository, mailerGateway);
-    }
-
-    @Bean
-    public GetAccount getAccount() {
-        return new GetAccount(accountRepository);
-    }
-
-    @Bean
     public RequestRide requestRide() {
-        return new RequestRide(accountRepository, rideRepository);
+        return new RequestRide(accountGateway, rideRepository);
     }
 
     @Bean
     public GetRide  getRide() {
-        return new GetRide(rideRepository, accountRepository);
+        return new GetRide(rideRepository, accountGateway);
     }
 
     @Bean
     public AcceptRide acceptRide() {
-        return new AcceptRide(accountRepository, rideRepository);
+        return new AcceptRide(accountGateway, rideRepository);
     }
 
     @Bean

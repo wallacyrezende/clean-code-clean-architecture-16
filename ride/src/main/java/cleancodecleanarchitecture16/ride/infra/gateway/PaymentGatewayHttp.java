@@ -1,5 +1,6 @@
 package cleancodecleanarchitecture16.ride.infra.gateway;
 
+import cleancodecleanarchitecture16.ride.application.gateway.PaymentGateway;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;

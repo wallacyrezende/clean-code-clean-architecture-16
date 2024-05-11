@@ -1,16 +1,13 @@
 package cleancodecleanarchitecture16.ride.application.usecase;
 
 import cleancodecleanarchitecture16.ride.domain.entity.Ride;
-import cleancodecleanarchitecture16.ride.domain.event.DomainEvent;
-import cleancodecleanarchitecture16.ride.domain.event.RideCompleted;
 import cleancodecleanarchitecture16.ride.domain.vo.RideId;
-import cleancodecleanarchitecture16.ride.infra.gateway.PaymentGateway;
+import cleancodecleanarchitecture16.ride.application.gateway.PaymentGateway;
 import cleancodecleanarchitecture16.ride.infra.mediator.Mediator;
 import cleancodecleanarchitecture16.ride.infra.queue.Queue;
 import cleancodecleanarchitecture16.ride.infra.repository.RideRepository;
 
 import java.util.NoSuchElementException;
-import java.util.UUID;
 
 public class FinishRide extends VoidUseCase<FinishRide.Input> {
 
