@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class RabbitMQAdapter implements Queue {
 
-    private ConnectionFactory connectionFactory;
     private final ObjectMapper mapper = new ObjectMapper();
+    private ConnectionFactory connectionFactory;
 
     @Override
     public void connect() {
@@ -29,7 +29,7 @@ public class RabbitMQAdapter implements Queue {
             channel.exchangeDeclare(exchangeName, "direct", true);
             channel.basicPublish(exchangeName, "", null, mapper.writeValueAsString(data).getBytes());
         } catch (Exception ex) {
-            ex.printStackTrace();
+            System.out.println("Error when trying publish message on exchange: " + exchangeName);
         }
     }
 
@@ -42,7 +42,7 @@ public class RabbitMQAdapter implements Queue {
             DeliverCallback deliverCallback = (consumerTag, delivery) -> callback.apply(mapper.writeValueAsString(delivery.getBody()));
             channel.basicConsume(queueName, true, deliverCallback, consumerTag -> { });
         } catch (Exception ex) {
-            ex.printStackTrace();
+            System.out.println("Error when trying consume message on queue: " + queueName);
         }
     }
 

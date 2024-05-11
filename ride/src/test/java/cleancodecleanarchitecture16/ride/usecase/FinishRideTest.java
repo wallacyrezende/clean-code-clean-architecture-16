@@ -9,6 +9,7 @@ import cleancodecleanarchitecture16.ride.application.usecase.RequestRide;
 import cleancodecleanarchitecture16.ride.application.usecase.StartRide;
 import cleancodecleanarchitecture16.ride.application.usecase.UpdatePosition;
 import cleancodecleanarchitecture16.ride.application.gateway.PaymentGateway;
+import cleancodecleanarchitecture16.ride.domain.entity.Ride;
 import cleancodecleanarchitecture16.ride.infra.dto.AccountDTO;
 import cleancodecleanarchitecture16.ride.infra.mediator.Mediator;
 import cleancodecleanarchitecture16.ride.infra.queue.Queue;
@@ -68,13 +69,16 @@ class FinishRideTest extends IntegrationTest {
         updatePosition.execute(inputUpdatePosition2);
         final var inputUpdatePosition3 = new UpdatePosition.Input(outputRequestRide.rideId(), -27.584905257808835, -48.545022195325124, LocalDateTime.of(2023, 3, 1, 23, 30, 0));
         updatePosition.execute(inputUpdatePosition3);
-        queue.connect();
 //        mediator.register("rideCompleted", (data -> {
 //            final var ride = (Ride) data;
 //            paymentGateway.processPayment(new PaymentGateway.Input(ride.rideId().value(), ride.fare()));
 //        }));
         final var inputFinishRide = new FinishRide.Input(outputRequestRide.rideId());
         finishRide.execute(inputFinishRide);
+//        queue.consume("rideCompleted", (data -> {
+//            final var ride = (Ride) data;
+//            paymentGateway.processPayment(new PaymentGateway.Input(ride.rideId().value(), ride.fare()));
+//        }));
         final var inputGetRide = new GetRide.Input(outputRequestRide.rideId());
         final var outputGetRide = getRide.execute(inputGetRide);
         assertTrue(outputGetRide.isPresent());
