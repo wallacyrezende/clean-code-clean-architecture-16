@@ -11,3 +11,10 @@ spring:
     url: jdbc:h2:mem:cccat16;INIT=RUNSCRIPT FROM 'classpath:h2/schema.sql';DB_CLOSE_ON_EXIT=FALSE
     username: sa
     password:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    queue: rideCompleted
+    exchange: rideCompleted

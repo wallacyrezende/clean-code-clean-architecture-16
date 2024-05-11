@@ -10,6 +10,8 @@ import cleancodecleanarchitecture16.ride.application.usecase.StartRide;
 import cleancodecleanarchitecture16.ride.application.usecase.UpdatePosition;
 import cleancodecleanarchitecture16.ride.infra.gateway.MailerGateway;
 import cleancodecleanarchitecture16.ride.infra.gateway.PaymentGateway;
+import cleancodecleanarchitecture16.ride.infra.mediator.Mediator;
+import cleancodecleanarchitecture16.ride.infra.queue.Queue;
 import cleancodecleanarchitecture16.ride.infra.repository.AccountRepository;
 import cleancodecleanarchitecture16.ride.infra.repository.PositionRepository;
 import cleancodecleanarchitecture16.ride.infra.repository.RideRepository;
@@ -26,14 +28,18 @@ public class UseCaseConfig {
     private final MailerGateway mailerGateway;
     private final PositionRepository positionRepository;
     private final PaymentGateway paymentGateway;
+    private final Mediator mediator;
+    private final Queue queue;
 
     public UseCaseConfig(AccountRepository accountRepository, RideRepository rideRepository, MailerGateway mailerGateway,
-                         PositionRepository positionRepository, PaymentGateway paymentGateway) {
+                         PositionRepository positionRepository, PaymentGateway paymentGateway, Mediator mediator, Queue queue) {
         this.accountRepository = requireNonNull(accountRepository);
         this.rideRepository = requireNonNull(rideRepository);
         this.mailerGateway = requireNonNull(mailerGateway);
         this.positionRepository = requireNonNull(positionRepository);
         this.paymentGateway = requireNonNull(paymentGateway);
+        this.mediator = requireNonNull(mediator);
+        this.queue = queue;
     }
 
     @Bean
@@ -73,6 +79,6 @@ public class UseCaseConfig {
 
     @Bean
     public FinishRide finishRide() {
-        return new FinishRide(rideRepository, paymentGateway);
+        return new FinishRide(rideRepository, paymentGateway, mediator, queue);
     }
 }

@@ -8,6 +8,10 @@ import cleancodecleanarchitecture16.ride.application.usecase.RequestRide;
 import cleancodecleanarchitecture16.ride.application.usecase.Signup;
 import cleancodecleanarchitecture16.ride.application.usecase.StartRide;
 import cleancodecleanarchitecture16.ride.application.usecase.UpdatePosition;
+import cleancodecleanarchitecture16.ride.domain.entity.Ride;
+import cleancodecleanarchitecture16.ride.infra.gateway.PaymentGateway;
+import cleancodecleanarchitecture16.ride.infra.mediator.Mediator;
+import cleancodecleanarchitecture16.ride.infra.queue.Queue;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -33,6 +37,12 @@ class FinishRideTest extends IntegrationTest {
     private GetRide getRide;
     @Autowired
     private FinishRide finishRide;
+    @Autowired
+    private Mediator mediator;
+    @Autowired
+    private PaymentGateway paymentGateway;
+    @Autowired
+    private Queue queue;
 
     @Test
     void shouldFinishARide() {
@@ -65,6 +75,11 @@ class FinishRideTest extends IntegrationTest {
         updatePosition.execute(inputUpdatePosition2);
         final var inputUpdatePosition3 = new UpdatePosition.Input(outputRequestRide.rideId(), -27.584905257808835, -48.545022195325124, LocalDateTime.of(2023, 3, 1, 23, 30, 0));
         updatePosition.execute(inputUpdatePosition3);
+        queue.connect();
+//        mediator.register("rideCompleted", (data -> {
+//            final var ride = (Ride) data;
+//            paymentGateway.processPayment(new PaymentGateway.Input(ride.rideId().value(), ride.fare()));
+//        }));
         final var inputFinishRide = new FinishRide.Input(outputRequestRide.rideId());
         finishRide.execute(inputFinishRide);
         final var inputGetRide = new GetRide.Input(outputRequestRide.rideId());

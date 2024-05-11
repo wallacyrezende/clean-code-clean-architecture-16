@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+
+  rabbitmq:
+    image: rabbitmq:3.12.14-management-alpine
+    hostname: rabbitmq
+    container_name: rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - /Users/wallacyrezende/Dev/docker/rabbitmq/data/:/var/lib/rabbitmq/
+      - /Users/wallacyrezende/Dev/docker/rabbitmq/log/:/var/log/rabbitmq

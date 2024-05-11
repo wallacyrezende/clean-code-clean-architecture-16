@@ -1,6 +1,7 @@
 package cleancodecleanarchitecture16.ride.domain.entity;
 
 import cleancodecleanarchitecture16.ride.application.exceptions.BusinessException;
+import cleancodecleanarchitecture16.ride.domain.event.RideCompleted;
 import cleancodecleanarchitecture16.ride.domain.service.FareCalculatorFactory;
 import cleancodecleanarchitecture16.ride.domain.vo.AccountId;
 import cleancodecleanarchitecture16.ride.domain.vo.Coord;
@@ -8,12 +9,16 @@ import cleancodecleanarchitecture16.ride.domain.vo.RideId;
 import cleancodecleanarchitecture16.ride.domain.vo.RideStatus;
 import cleancodecleanarchitecture16.ride.domain.vo.RideStatusFactory;
 import cleancodecleanarchitecture16.ride.domain.vo.Segment;
+import cleancodecleanarchitecture16.ride.infra.mediator.Observable;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 // Aggregate, Aggregate Root <AR>, Entity
-public class Ride {
-
+public class Ride extends Observable implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
     private final RideId rideId;
     private AccountId passengerId;
     private AccountId driverId;
@@ -26,6 +31,7 @@ public class Ride {
 
     private Ride(final RideId rideId, final AccountId passengerId, final AccountId driverId, final Segment segment, final Double fare,
                  final Double distance, String status, final LocalDateTime date, final Coord lastPosition) {
+        super();
         if (rideId == null)
             throw new BusinessException("Invalid rideId for Ride");
         this.status = RideStatusFactory.create(this, status);
@@ -68,6 +74,7 @@ public class Ride {
 
     public void finish () {
         this.status.finish();
+        this.notify(new RideCompleted(this));
     }
 
     public void updatePosition (Double latitude, Double longitude, LocalDateTime date) {
