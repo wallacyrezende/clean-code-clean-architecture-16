@@ -12,6 +12,7 @@ import cleancodecleanarchitecture16.ride.infra.mediator.Mediator;
 import cleancodecleanarchitecture16.ride.infra.queue.Queue;
 import cleancodecleanarchitecture16.ride.infra.repository.PositionRepository;
 import cleancodecleanarchitecture16.ride.infra.repository.RideRepository;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -28,7 +29,7 @@ public class UseCaseConfig {
     private final Queue queue;
 
     public UseCaseConfig(AccountGateway accountGateway, RideRepository rideRepository, PositionRepository positionRepository,
-                         PaymentGateway paymentGateway, Mediator mediator, Queue queue) {
+                         PaymentGateway paymentGateway, Mediator mediator, @Qualifier("rabbitMQAdapter") Queue queue) {
         this.accountGateway = requireNonNull(accountGateway);
         this.rideRepository = requireNonNull(rideRepository);
         this.positionRepository = requireNonNull(positionRepository);

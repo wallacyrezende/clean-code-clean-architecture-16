@@ -15,6 +15,7 @@ import cleancodecleanarchitecture16.ride.infra.mediator.Mediator;
 import cleancodecleanarchitecture16.ride.infra.queue.Queue;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.time.LocalDateTime;
 
@@ -43,6 +44,7 @@ class FinishRideTest extends IntegrationTest {
     @Autowired
     private PaymentGateway paymentGateway;
     @Autowired
+    @Qualifier("rabbitMQAdapter")
     private Queue queue;
 
     @Test
